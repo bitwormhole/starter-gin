@@ -2,7 +2,6 @@ package gin_starter
 
 import (
 	"errors"
-	"net/http"
 	"strconv"
 
 	"github.com/bitwormhole/starter/application"
@@ -17,11 +16,11 @@ type GinWebController interface {
 }
 
 type GinServerContainer struct {
-	port           int
-	host           string
-	engine         *gin.Engine
-	controllers    []GinWebController
-	runtimeContext application.Context
+	port        int
+	host        string
+	engine      *gin.Engine
+	controllers []GinWebController
+	appContext  application.Context
 }
 
 func (inst *GinServerContainer) Inject(context application.Context) error {
@@ -40,6 +39,7 @@ func (inst *GinServerContainer) Inject(context application.Context) error {
 
 	inst.loadProperties(context)
 	inst.controllers = ctrlist
+	inst.appContext = context
 	return in.Done()
 }
 
@@ -98,12 +98,10 @@ func (inst *GinServerContainer) initControllers() error {
 
 func (inst *GinServerContainer) initStatic() error {
 
-	res := inst.runtimeContext.GetResources()
+	res := inst.appContext.GetResources()
 	engine := inst.engine
 	adapter := &GinFsAdapter{res: res}
-
-	engine.StaticFS("/", http.FS(adapter.GetFS()))
-
+	engine.StaticFS("/www", adapter.GetFS())
 	return nil
 }
 
@@ -129,6 +127,11 @@ func (inst *GinServerContainer) Init() error {
 	}
 
 	err = inst.initControllers()
+	if err != nil {
+		return err
+	}
+
+	err = inst.initStatic()
 	if err != nil {
 		return err
 	}
