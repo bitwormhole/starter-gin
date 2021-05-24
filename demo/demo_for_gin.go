@@ -12,7 +12,7 @@ import (
 
 func RunDemo(args []string, res collection.Resources) error {
 
-	configurer := &config.AppConfig{}
+	configurer := config.NewBuilder()
 	configurer.SetResources(res)
 	gin_etc.Config(configurer)
 	demo_etc.Config(configurer)

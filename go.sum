@@ -6,6 +6,8 @@ github.com/bitwormhole/starter v0.0.0-20210523055258-63eb03f6323f h1:KfAEXJ9s2F1
 github.com/bitwormhole/starter v0.0.0-20210523055258-63eb03f6323f/go.mod h1:pOKhC2K0le6UK1OnZElQ4IqVYeVwP6qiMJxVhQp/AEA=
 github.com/bitwormhole/starter v0.0.0-20210523102230-58cc4028e73e h1:qqMddEfqJdG68NOtb7BqzqI1Yg/oBL6co1pBSG0kVDE=
 github.com/bitwormhole/starter v0.0.0-20210523102230-58cc4028e73e/go.mod h1:pOKhC2K0le6UK1OnZElQ4IqVYeVwP6qiMJxVhQp/AEA=
+github.com/bitwormhole/starter v0.0.0-20210523115635-887cc289d62c h1:OAcYcIptOplcgMw3OqWvEKlx4hVHChy0+kjO/NsgZnc=
+github.com/bitwormhole/starter v0.0.0-20210523115635-887cc289d62c/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
