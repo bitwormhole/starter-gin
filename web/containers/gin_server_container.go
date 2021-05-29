@@ -1,4 +1,4 @@
-package gin_starter
+package containers
 
 import (
 	"errors"
@@ -15,10 +15,16 @@ type GinWebController interface {
 	Config(engine *gin.Engine) error
 }
 
+type GinWebFilter interface {
+	lang.PriorityProvider
+	ConfigFilter(engine *gin.Engine) error
+}
+
 type GinServerContainer struct {
 	port        int
 	host        string
 	engine      *gin.Engine
+	filters     []GinWebFilter
 	controllers []GinWebController
 	appContext  application.Context
 }
@@ -26,6 +32,7 @@ type GinServerContainer struct {
 func (inst *GinServerContainer) Inject(context application.Context) error {
 
 	ctrlist := []GinWebController{}
+	filterlist := []GinWebFilter{}
 	in := context.Injector()
 	selector := "." + GinWebControllerClassName
 
@@ -33,12 +40,19 @@ func (inst *GinServerContainer) Inject(context application.Context) error {
 		controller, ok := o.(GinWebController)
 		if ok {
 			ctrlist = append(ctrlist, controller)
+			return ok
+		}
+		filter, ok := o.(GinWebFilter)
+		if ok {
+			filterlist = append(filterlist, filter)
+			return ok
 		}
 		return ok
 	})
 
 	inst.loadProperties(context)
 	inst.controllers = ctrlist
+	inst.filters = filterlist
 	inst.appContext = context
 	return in.Done()
 }
@@ -77,6 +91,22 @@ func (inst *GinServerContainer) initEngine() error {
 	*/
 
 	inst.engine = server
+	return nil
+}
+
+func (inst *GinServerContainer) initFilters() error {
+
+	filters := inst.filters
+	engine := inst.engine
+
+	for index := range filters {
+		ctrl := filters[index]
+		err := ctrl.ConfigFilter(engine)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -122,6 +152,11 @@ func (inst *GinServerContainer) Run() error {
 func (inst *GinServerContainer) Init() error {
 
 	err := inst.initEngine()
+	if err != nil {
+		return err
+	}
+
+	err = inst.initFilters()
 	if err != nil {
 		return err
 	}

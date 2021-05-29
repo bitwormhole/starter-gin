@@ -1,12 +1,12 @@
 package etc
 
 import (
-	"github.com/bitwormhole/starter-gin/web/gin_starter"
+	"github.com/bitwormhole/starter-gin/web/containers"
 	"github.com/bitwormhole/starter-gin/web/rest"
 	"github.com/bitwormhole/starter/application"
 )
 
-func theGinLooper(inst *gin_starter.GinLooper, context application.Context) error {
+func theGinLooper(inst *containers.GinLooper, context application.Context) error {
 
 	//	[component]
 	// class=looper
@@ -15,7 +15,7 @@ func theGinLooper(inst *gin_starter.GinLooper, context application.Context) erro
 	return nil
 }
 
-func theGinServerContainer(inst *gin_starter.GinServerContainer, context application.Context) error {
+func theGinServerContainer(inst *containers.GinServerContainer, context application.Context) error {
 
 	//	[component]
 	//  id=gin-web-server

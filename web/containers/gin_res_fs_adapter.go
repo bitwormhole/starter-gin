@@ -1,4 +1,4 @@
-package gin_starter
+package containers
 
 import (
 	"errors"

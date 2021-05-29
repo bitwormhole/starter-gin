@@ -1,7 +1,8 @@
 package elements
 
 import (
-	"github.com/bitwormhole/starter-gin/web/gin_starter"
+	"github.com/bitwormhole/starter-gin/security"
+	"github.com/bitwormhole/starter-gin/web/containers"
 	"github.com/bitwormhole/starter-gin/web/rest"
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,7 @@ type ExampleGinController struct {
 	REST rest.Context
 }
 
-func (inst *ExampleGinController) _impl_controller() gin_starter.GinWebController {
+func (inst *ExampleGinController) _impl_controller() containers.GinWebController {
 	return inst
 }
 
@@ -38,6 +39,13 @@ func (inst *ExampleGinController) doGet(c *gin.Context) {
 		"type":   "example1",
 		"id":     id,
 	}
+
+	session, err := security.GetSession(c)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+	session.Commit()
 	c.JSON(200, table)
 }
 

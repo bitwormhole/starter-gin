@@ -3,6 +3,7 @@ package etc
 
 import(
 	elements_9f940d07 "github.com/bitwormhole/starter-gin/demo/elements"
+	filters_9935dc5b "github.com/bitwormhole/starter-gin/web/filters"
 	application "github.com/bitwormhole/starter/application"
 	config "github.com/bitwormhole/starter/application/config"
 	lang "github.com/bitwormhole/starter/lang"
@@ -22,6 +23,21 @@ func Config(cb application.ConfigBuilder) error {
 		OnInject: func(obj lang.Object,context application.Context) error {
 		    target := obj.(*elements_9f940d07.ExampleGinController)
 		    return theGinHandlerExample1(target,context)
+		},
+    })
+
+    // tokenSessionFilter
+    cb.AddComponent(&config.ComInfo{
+		ID: "tokenSessionFilter",
+		Class: "gin-web-controller",
+		Scope: application.ScopeSingleton,
+		Aliases: []string{},
+		OnNew: func() lang.Object {
+		    return &filters_9935dc5b.SecuritySessionFilter{}
+		},
+		OnInject: func(obj lang.Object,context application.Context) error {
+		    target := obj.(*filters_9935dc5b.SecuritySessionFilter)
+		    return tokenSessionFilter(target,context)
 		},
     })
 
