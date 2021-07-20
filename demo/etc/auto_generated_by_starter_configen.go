@@ -1,46 +1,73 @@
-// 这个文件是由 starter-configen 工具生成的配置代码，千万不要手工修改里面的任何内容。
-package etc
+// 这个配置文件是由 starter-configen 工具自动生成的。
+// 任何时候，都不要手工修改这里面的内容！！！
 
-import(
-	elements_9f940d07 "github.com/bitwormhole/starter-gin/demo/elements"
-	filters_9935dc5b "github.com/bitwormhole/starter-gin/web/filters"
+package etcdemo
+
+import (
+	errors "errors"
+
+	elements_095f49 "github.com/bitwormhole/starter-gin/demo/elements"
 	application "github.com/bitwormhole/starter/application"
 	config "github.com/bitwormhole/starter/application/config"
 	lang "github.com/bitwormhole/starter/lang"
 )
 
-func Config(cb application.ConfigBuilder) error {
+func Config(configbuilder application.ConfigBuilder) error {
 
-    // theGinHandlerExample1
-    cb.AddComponent(&config.ComInfo{
-		ID: "theGinHandlerExample1",
-		Class: "gin-web-controller",
-		Scope: application.ScopeSingleton,
-		Aliases: []string{},
-		OnNew: func() lang.Object {
-		    return &elements_9f940d07.ExampleGinController{}
-		},
-		OnInject: func(obj lang.Object,context application.Context) error {
-		    target := obj.(*elements_9f940d07.ExampleGinController)
-		    return theGinHandlerExample1(target,context)
-		},
-    })
+	cominfobuilder := &config.ComInfoBuilder{}
+	err := errors.New("OK")
 
-    // tokenSessionFilter
-    cb.AddComponent(&config.ComInfo{
-		ID: "tokenSessionFilter",
-		Class: "gin-web-controller",
-		Scope: application.ScopeSingleton,
-		Aliases: []string{},
-		OnNew: func() lang.Object {
-		    return &filters_9935dc5b.SecuritySessionFilter{}
-		},
-		OnInject: func(obj lang.Object,context application.Context) error {
-		    target := obj.(*filters_9935dc5b.SecuritySessionFilter)
-		    return tokenSessionFilter(target,context)
-		},
-    })
+	// theGinHandlerExample1
+	cominfobuilder.Reset()
+	cominfobuilder.ID("theGinHandlerExample1").Class("").Scope("").Aliases("")
+	cominfobuilder.OnNew(func() lang.Object {
+		return &elements_095f49.ExampleGinController{}
+	})
+	cominfobuilder.OnInit(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnDestroy(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnInject(func(o lang.Object, context application.Context) error {
+		adapter := &theGinHandlerExample1{}
+		adapter.instance = o.(*elements_095f49.ExampleGinController)
+		// adapter.context = context
+		err := adapter.__inject__(context)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	err = cominfobuilder.CreateTo(configbuilder)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// type theGinHandlerExample1 struct
+
+func (inst *theGinHandlerExample1) __inject__(context application.Context) error {
+
+	// prepare
+	instance := inst.instance
+	injection, err := context.Injector().OpenInjection(context)
+	if err != nil {
+		return err
+	}
+	defer injection.Close()
+	if instance == nil {
+		return nil
+	}
+
+	// from getters
+
+	// to instance
+
+	// invoke custom inject method
+
+	return injection.Close()
+}

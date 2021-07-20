@@ -1,32 +1,48 @@
 package elements
 
 import (
-	"github.com/bitwormhole/starter-gin/security"
-	"github.com/bitwormhole/starter-gin/web/containers"
-	"github.com/bitwormhole/starter-gin/web/rest"
+	"github.com/bitwormhole/starter-gin/web"
+	"github.com/bitwormhole/starter/application"
 	"github.com/gin-gonic/gin"
 )
 
 type ExampleGinController struct {
-	REST rest.Context
 }
 
-func (inst *ExampleGinController) _impl_controller() containers.GinWebController {
+func (inst *ExampleGinController) _impl_controller() web.Controller {
 	return inst
 }
 
-func (inst *ExampleGinController) Config(engine *gin.Engine) error {
+func (inst *ExampleGinController) Inject(ctx application.Context) error {
+	return nil
+}
 
-	rt := inst.REST.ForType("example1")
+func (inst *ExampleGinController) Init() error {
+	return nil
+}
 
-	engine.GET(rt.Path(""), func(c *gin.Context) { inst.doGet(c) })
-	engine.POST(rt.Path(""), func(c *gin.Context) { inst.doPost(c) })
+func (inst *ExampleGinController) Destroy() error {
+	return nil
+}
 
-	engine.GET(rt.Path(":id"), func(c *gin.Context) { inst.doGet(c) })
-	engine.PUT(rt.Path(":id"), func(c *gin.Context) { inst.doPut(c) })
-	engine.DELETE(rt.Path(":id"), func(c *gin.Context) { inst.doDelete(c) })
+func (inst *ExampleGinController) Config(con web.Container) error {
+
+	con = con.Mapping("example1")
+
+	con.AddFilter().Priority(8).Handle(func(c *gin.Context) { inst.doFilter(c) })
+
+	con.GET("").Handle(func(c *gin.Context) { inst.doGet(c) })
+	con.POST("").Handle(func(c *gin.Context) { inst.doGet(c) })
+
+	con.GET(":id").Handle(func(c *gin.Context) { inst.doGet(c) })
+	con.PUT(":id").Handle(func(c *gin.Context) { inst.doPut(c) })
+	con.DELETE(":id").Handle(func(c *gin.Context) { inst.doDelete(c) })
 
 	return nil
+}
+
+func (inst *ExampleGinController) doFilter(c *gin.Context) {
+	c.Next()
 }
 
 func (inst *ExampleGinController) doGet(c *gin.Context) {
@@ -40,12 +56,6 @@ func (inst *ExampleGinController) doGet(c *gin.Context) {
 		"id":     id,
 	}
 
-	session, err := security.GetSession(c)
-	if err != nil {
-		c.Error(err)
-		return
-	}
-	session.Commit()
 	c.JSON(200, table)
 }
 

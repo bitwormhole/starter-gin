@@ -1,3 +1,5 @@
+gitee.com/bitwormhole/starter-http-responder v0.0.1 h1:jKQ0PZov3NZkjEX8AQdNK30NOz9Irt8UexKBDwAY7lc=
+gitee.com/bitwormhole/starter-http-responder v0.0.1/go.mod h1:IaYVTNXtsp/gIgSRIFLiq/vG6DWVuzvsRj2WhBBzJOI=
 github.com/bitwormhole/starter v0.0.0-20210512075046-5f4dad810e3c h1:dq9XhWtoRzND5daTu1L4cXAZNjCy9tfDcGiFb+rXAMs=
 github.com/bitwormhole/starter v0.0.0-20210512075046-5f4dad810e3c/go.mod h1:pOKhC2K0le6UK1OnZElQ4IqVYeVwP6qiMJxVhQp/AEA=
 github.com/bitwormhole/starter v0.0.0-20210523021014-9f1d576efba3 h1:7Ocy9ZV5AqSInVI4mWbuLpfsNisY79eN9ToYzs+p9LE=
@@ -8,12 +10,18 @@ github.com/bitwormhole/starter v0.0.0-20210523102230-58cc4028e73e h1:qqMddEfqJdG
 github.com/bitwormhole/starter v0.0.0-20210523102230-58cc4028e73e/go.mod h1:pOKhC2K0le6UK1OnZElQ4IqVYeVwP6qiMJxVhQp/AEA=
 github.com/bitwormhole/starter v0.0.0-20210523115635-887cc289d62c h1:OAcYcIptOplcgMw3OqWvEKlx4hVHChy0+kjO/NsgZnc=
 github.com/bitwormhole/starter v0.0.0-20210523115635-887cc289d62c/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
+github.com/bitwormhole/starter v0.0.13 h1:i61y6H6ig9QJny8QS9bIZZWVHpuGmyhSmWLuvuGZn1I=
+github.com/bitwormhole/starter v0.0.13/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
+github.com/bitwormhole/starter-security v0.0.2 h1:Lrx/GsQhT36GYjnfXL9Ima5F2pRdPHDG/pT3C62GHA0=
+github.com/bitwormhole/starter-security v0.0.2/go.mod h1:enEQzrIIL6iGTcL1xBPIqGXlPJR/KtMoyN1CKcm0IGI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/gin-gonic/gin v1.7.1 h1:qC89GU3p8TvKWMAVhEpmpB2CIb1hnqt2UdKZaP93mS8=
 github.com/gin-gonic/gin v1.7.1/go.mod h1:jD2toBW3GZUr5UMcdrwQA10I7RuaFOl/SGeDjXkfUtY=
+github.com/gin-gonic/gin v1.7.2 h1:Tg03T9yM2xa8j6I3Z3oqLaQRSmKvxPd6g/2HJ6zICFA=
+github.com/gin-gonic/gin v1.7.2/go.mod h1:jD2toBW3GZUr5UMcdrwQA10I7RuaFOl/SGeDjXkfUtY=
 github.com/go-playground/assert/v2 v2.0.1/go.mod h1:VDjEfimB/XKnb+ZQfWdccd7VUvScMdVu0Titje2rxJ4=
 github.com/go-playground/locales v0.13.0 h1:HyWk6mgj5qFqCT5fjGBuRArbVDfE4hi8+e8ceBS/t7Q=
 github.com/go-playground/locales v0.13.0/go.mod h1:taPMhCMXrRLJO55olJkUXHZBHCxTMfnGwq/HNwmWNS8=
