@@ -165,6 +165,9 @@ type myGinStarterCore struct {
 	runtime *myGinRuntime
 	facade  *myGinStarterFacade
 
+	handlerOnNoMethod gin.HandlerFunc
+	handlerOnNoRes    gin.HandlerFunc
+
 	controllers []Controller
 	filters     []*myFilterReg
 	handlers    []*myHandlerReg
@@ -195,6 +198,11 @@ func (inst *myGinStarterCore) init() error {
 	}
 
 	err = inst.init_handlers()
+	if err != nil {
+		return err
+	}
+
+	err = inst.init_error_handlers()
 	if err != nil {
 		return err
 	}
@@ -285,6 +293,23 @@ func (inst *myGinStarterCore) init_handlers() error {
 	return nil
 }
 
+func (inst *myGinStarterCore) init_error_handlers() error {
+
+	engine := inst.runtime.engine
+	no_method := inst.handlerOnNoMethod
+	no_res := inst.handlerOnNoRes
+
+	if no_method != nil {
+		engine.NoMethod(no_method)
+	}
+
+	if no_res != nil {
+		engine.NoRoute(no_res)
+	}
+
+	return nil
+}
+
 func (inst *myGinStarterCore) add_handler(reg *myHandlerReg) {
 	inst.handlers = append(inst.handlers, reg)
 }
@@ -316,6 +341,14 @@ func (inst *myGinStarterFacade) Mapping(path string) Container {
 	}
 
 	return child
+}
+
+func (inst *myGinStarterFacade) HandleNoMethod(fn gin.HandlerFunc) {
+	inst.core.handlerOnNoMethod = fn
+}
+
+func (inst *myGinStarterFacade) HandleNoResource(fn gin.HandlerFunc) {
+	inst.core.handlerOnNoRes = fn
 }
 
 func (inst *myGinStarterFacade) AddFilter() FilterRegistration {

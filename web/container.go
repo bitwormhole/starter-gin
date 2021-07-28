@@ -10,6 +10,8 @@ type Container interface {
 	Mapping(path string) Container
 
 	AddFilter() FilterRegistration
+	HandleNoMethod(gin.HandlerFunc)
+	HandleNoResource(gin.HandlerFunc)
 
 	GET(path string) HandlerRegistration
 	POST(path string) HandlerRegistration
