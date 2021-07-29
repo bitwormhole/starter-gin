@@ -1,7 +1,7 @@
 // 这个配置文件是由 starter-configen 工具自动生成的。
 // 任何时候，都不要手工修改这里面的内容！！！
 
-package etc_gin
+package gin
 
 import(
 	errors "errors"
@@ -12,7 +12,7 @@ import(
 )
 
 
-func Config(configbuilder application.ConfigBuilder) error {
+func autoGenConfig(configbuilder application.ConfigBuilder) error {
 
 	cominfobuilder := &config.ComInfoBuilder{}
 	err := errors.New("OK")
@@ -68,15 +68,21 @@ func (inst *ginServer) __inject__(context application.Context) error {
 
 	// from getters
 	inst.ApplicationContext=inst.__get_ApplicationContext__(injection, "context")
+	inst.ContentTypeProperties=inst.__get_ContentTypeProperties__(injection, "${server.content-type-properties}")
 	inst.ContextPath=inst.__get_ContextPath__(injection, "${server.context-path}")
+	inst.ErrorPageName=inst.__get_ErrorPageName__(injection, "${server.error-page-name}")
 	inst.Host=inst.__get_Host__(injection, "${server.host}")
+	inst.IndexPageNames=inst.__get_IndexPageNames__(injection, "${server.index-page-names}")
 	inst.Port=inst.__get_Port__(injection, "${server.port}")
 
 
 	// to instance
 	instance.ApplicationContext=inst.ApplicationContext
+	instance.ContentTypeProperties=inst.ContentTypeProperties
 	instance.ContextPath=inst.ContextPath
+	instance.ErrorPageName=inst.ErrorPageName
 	instance.Host=inst.Host
+	instance.IndexPageNames=inst.IndexPageNames
 	instance.Port=inst.Port
 
 
@@ -90,6 +96,16 @@ func (inst * ginServer) __get_ApplicationContext__(injection application.Injecti
 	return injection.Context()
 }
 
+func (inst * ginServer) __get_ContentTypeProperties__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
 func (inst * ginServer) __get_ContextPath__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
@@ -100,7 +116,27 @@ func (inst * ginServer) __get_ContextPath__(injection application.Injection,sele
 	return value
 }
 
+func (inst * ginServer) __get_ErrorPageName__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
 func (inst * ginServer) __get_Host__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * ginServer) __get_IndexPageNames__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()

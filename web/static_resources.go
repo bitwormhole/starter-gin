@@ -59,6 +59,17 @@ func (inst *StaticResourcesController) Config(c Container) error {
 	return nil
 }
 
+func (inst *StaticResourcesController) isIndexPage(holder *myStaticResHolder) bool {
+	path := holder.pathInStatic
+	i1 := strings.LastIndex(path, "/")
+	i2 := strings.LastIndex(path, ".")
+	if 0 <= i1 && i1 < i2 {
+		name := path[i1+1 : i2]
+		return name == "index"
+	}
+	return false
+}
+
 func (inst *StaticResourcesController) loadContent(holder *myStaticResHolder) ([]byte, error) {
 
 	res_path := holder.pathInResources
@@ -163,6 +174,16 @@ func (inst *myStaticResHolder) bind(c Container) {
 		return // skip
 	}
 	path := "/" + inst.pathInStatic
+	c.GET(path).Handle(func(c *gin.Context) { inst.handle(c) })
+	if inst.parent.isIndexPage(inst) {
+		inst.bindAsIndex(c)
+	}
+}
+
+func (inst *myStaticResHolder) bindAsIndex(c Container) {
+	path := "/" + inst.pathInStatic
+	i := strings.LastIndex(path, "/")
+	path = path[0 : i+1]
 	c.GET(path).Handle(func(c *gin.Context) { inst.handle(c) })
 }
 
