@@ -3,6 +3,7 @@ package web
 import "github.com/gin-gonic/gin"
 
 type Http404pageController struct {
+	Configuration *GinServerConfig
 }
 
 func (inst *Http404pageController) __impl__() Controller {

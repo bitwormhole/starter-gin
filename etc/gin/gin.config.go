@@ -21,16 +21,41 @@ func Config(cb application.ConfigBuilder) error {
 	return autoGenConfig(cb)
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+// server.config
+type ginServerConfig struct {
+	markup.Component
+	instance *web.GinServerConfig `id:"gin-web-server-config"`
+
+	NotFoundStatusCode    int    `inject:"${server.not-found-status-code}"`
+	Port                  int    `inject:"${server.port}"`
+	Host                  string `inject:"${server.host}"`
+	ContextPath           string `inject:"${server.context-path}"`
+	ErrorPageName         string `inject:"${server.error-page-name}"`
+	IndexPageNames        string `inject:"${server.index-page-names}"`
+	ContentTypeProperties string `inject:"${server.content-type-properties}"`
+}
+
+// server.starter
 type ginServer struct {
 	markup.Component
-	instance *web.GinStarter `id:"gin-web-server" class:"looper" initMethod:"Start" destroyMethod:"Stop" `
+	instance           *web.GinStarter      `id:"gin-web-server" class:"looper" initMethod:"Start" destroyMethod:"Stop" `
+	Configuration      *web.GinServerConfig `inject:"#gin-web-server-config"`
+	ApplicationContext application.Context  `inject:"context"`
+}
 
-	NotFoundStatusCode    int                 `inject:"${server.not-found-status-code}"`
-	Port                  int                 `inject:"${server.port}"`
-	Host                  string              `inject:"${server.host}"`
-	ContextPath           string              `inject:"${server.context-path}"`
-	ErrorPageName         string              `inject:"${server.error-page-name}"`
-	IndexPageNames        string              `inject:"${server.index-page-names}"`
-	ContentTypeProperties string              `inject:"${server.content-type-properties}"`
-	ApplicationContext    application.Context `inject:"context"`
+// server.errors
+type ginHttp404pageController struct {
+	markup.Component
+	instance      *web.Http404pageController
+	Configuration *web.GinServerConfig `inject:"#gin-web-server-config"`
+}
+
+// server.static
+type ginStaticResourcesController struct {
+	markup.Component
+	instance           *web.StaticResourcesController
+	ApplicationContext application.Context  `inject:"context"`
+	Configuration      *web.GinServerConfig `inject:"#gin-web-server-config"`
 }

@@ -13,16 +13,9 @@ import (
 )
 
 type GinStarter struct {
-	runtime *myGinRuntime
-
-	ErrorPageName         string // 只能位于根目录， 例如：‘/error.html’
-	IndexPageNames        string // index.html, index.htm, index.xxx
-	ContentTypeProperties string // like 'resources:///types.properties'
-	ContextPath           string
-	Host                  string
-	Port                  int
-	NotFoundStatusCode    int // default=404
-	ApplicationContext    application.Context
+	ApplicationContext application.Context
+	Configuration      *GinServerConfig
+	runtime            *myGinRuntime
 }
 
 func (inst *GinStarter) __impl__() application.Looper {
@@ -43,7 +36,8 @@ func (inst *GinStarter) Start() error {
 		}
 	}
 
-	rt.config = inst
+	rt.config = inst.Configuration
+	rt.applicationContext = inst.ApplicationContext
 	inst.runtime = rt
 	return rt.start()
 }
@@ -67,8 +61,9 @@ func (inst *GinStarter) Loop() error {
 ////////////////////////////////////////////////////////////////////////////////
 
 type myGinRuntime struct {
-	engine *gin.Engine
-	config *GinStarter
+	engine             *gin.Engine
+	config             *GinServerConfig
+	applicationContext application.Context
 
 	endpoint  string // host:port
 	LastError error
@@ -149,25 +144,27 @@ func (inst *myGinRuntime) run() error {
 func (inst *myGinRuntime) init() error {
 
 	facade := &myGinStarterFacade{}
-	starter := &myGinStarterCore{}
+	gsCore := &myGinStarterCore{}
 
-	facade.core = starter
+	facade.core = gsCore
 	facade.contextPath = inst.config.ContextPath
 
-	starter.runtime = inst
-	starter.facade = facade
-	starter.controllers = make([]Controller, 0)
-	starter.filters = make([]*myFilterReg, 0)
-	starter.handlers = make([]*myHandlerReg, 0)
+	gsCore.ApplicationContext = inst.applicationContext
+	gsCore.runtime = inst
+	gsCore.facade = facade
+	gsCore.controllers = make([]Controller, 0)
+	gsCore.filters = make([]*myFilterReg, 0)
+	gsCore.handlers = make([]*myHandlerReg, 0)
 
-	return starter.init()
+	return gsCore.init()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 type myGinStarterCore struct {
-	runtime *myGinRuntime
-	facade  *myGinStarterFacade
+	ApplicationContext application.Context
+	runtime            *myGinRuntime
+	facade             *myGinStarterFacade
 
 	handlerOnNoMethod gin.HandlerFunc
 	handlerOnNoRes    gin.HandlerFunc
@@ -233,7 +230,7 @@ func (inst *myGinStarterCore) init_endpoint() error {
 
 func (inst *myGinStarterCore) init_controllers_1() error {
 
-	app := inst.runtime.config.ApplicationContext
+	app := inst.ApplicationContext
 	list1, err := app.GetComponentList("*")
 	list2 := make([]Controller, 0)
 

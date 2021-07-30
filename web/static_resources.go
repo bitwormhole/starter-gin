@@ -11,6 +11,7 @@ import (
 
 type StaticResourcesController struct {
 	ApplicationContext application.Context
+	Configuration      *GinServerConfig
 	StaticResourcePath string
 
 	typeMapper         map[string]string
