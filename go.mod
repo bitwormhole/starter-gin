@@ -3,6 +3,6 @@ module github.com/bitwormhole/starter-gin
 go 1.16
 
 require (
-	github.com/bitwormhole/starter v0.0.16 // indirect
-	github.com/gin-gonic/gin v1.7.2 // indirect
+	github.com/bitwormhole/starter v0.0.21 // indirect
+	github.com/gin-gonic/gin v1.7.3 // indirect
 )

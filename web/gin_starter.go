@@ -1,8 +1,8 @@
 package web
 
 import (
-	"errors"
 	"fmt"
+	"log"
 	"sort"
 	"strconv"
 	"strings"
@@ -13,9 +13,7 @@ import (
 )
 
 type GinStarter struct {
-	ApplicationContext application.Context
-	Configuration      *GinServerConfig
-	runtime            *myGinRuntime
+	ServerContext *GinServerContext
 }
 
 func (inst *GinStarter) __impl__() application.Looper {
@@ -24,26 +22,25 @@ func (inst *GinStarter) __impl__() application.Looper {
 
 func (inst *GinStarter) Start() error {
 
-	rt := inst.runtime
-
-	if rt == nil {
-		rt = &myGinRuntime{}
-	} else {
-		if rt.isStopped() {
-			rt = &myGinRuntime{}
-		} else {
+	rt := inst.ServerContext.runtime
+	if rt != nil {
+		if !rt.isStopped() {
 			return nil
 		}
 	}
 
-	rt.config = inst.Configuration
-	rt.applicationContext = inst.ApplicationContext
-	inst.runtime = rt
+	rt = &myGinRuntime{}
+	rt.config = inst.ServerContext.Configuration
+	rt.applicationContext = inst.ServerContext.ApplicationContext
+	rt.engine = gin.Default()
+	rt.serverContext = inst.ServerContext
+
+	inst.ServerContext.runtime = rt
 	return rt.start()
 }
 
 func (inst *GinStarter) Stop() error {
-	rt := inst.runtime
+	rt := inst.ServerContext.runtime
 	if rt == nil {
 		return nil
 	}
@@ -51,7 +48,7 @@ func (inst *GinStarter) Stop() error {
 }
 
 func (inst *GinStarter) Loop() error {
-	rt := inst.runtime
+	rt := inst.ServerContext.runtime
 	if rt == nil {
 		return nil
 	}
@@ -63,6 +60,7 @@ func (inst *GinStarter) Loop() error {
 type myGinRuntime struct {
 	engine             *gin.Engine
 	config             *GinServerConfig
+	serverContext      *GinServerContext
 	applicationContext application.Context
 
 	endpoint  string // host:port
@@ -125,12 +123,10 @@ func (inst *myGinRuntime) run() error {
 	defer func() { inst.stopped = true }()
 
 	defer func() {
-		err := recover()
-		if err == nil {
-			return
+		log.Println("done")
+		if x := recover(); x != nil {
+			log.Printf("run time panic: %v", x)
 		}
-		inst.LastError = errors.New(fmt.Sprint(err))
-		fmt.Println("recover error:", err)
 	}()
 
 	err := inst.init()
@@ -147,7 +143,8 @@ func (inst *myGinRuntime) init() error {
 	gsCore := &myGinStarterCore{}
 
 	facade.core = gsCore
-	facade.contextPath = inst.config.ContextPath
+	facade.staticContextPath = inst.config.StaticContextPath
+	facade.apiContextPath = inst.config.APIContextPath
 
 	gsCore.ApplicationContext = inst.applicationContext
 	gsCore.runtime = inst
@@ -175,8 +172,6 @@ type myGinStarterCore struct {
 }
 
 func (inst *myGinStarterCore) init() error {
-
-	inst.runtime.engine = gin.Default()
 
 	err := inst.init_endpoint()
 	if err != nil {
@@ -322,8 +317,9 @@ func (inst *myGinStarterCore) add_filter(reg *myFilterReg) {
 ////////////////////////////////////////////////////////////////////////////////
 
 type myGinStarterFacade struct {
-	core        *myGinStarterCore
-	contextPath string
+	core              *myGinStarterCore
+	apiContextPath    string
+	staticContextPath string
 }
 
 func (inst *myGinStarterFacade) Engine() *gin.Engine {
@@ -336,9 +332,9 @@ func (inst *myGinStarterFacade) Mapping(path string) Container {
 	child.core = inst.core
 
 	if strings.HasPrefix(path, "/") {
-		child.contextPath = path
+		child.apiContextPath = path
 	} else {
-		child.contextPath = inst.contextPath + "/" + path
+		child.apiContextPath = inst.apiContextPath + "/" + path
 	}
 
 	return child
@@ -379,7 +375,7 @@ func (inst *myGinStarterFacade) Handle(method string, path string) HandlerRegist
 	reg := &myHandlerReg{}
 	reg.core = inst.core
 	reg.method = method
-	reg.path1 = inst.contextPath
+	reg.path1 = inst.apiContextPath
 	reg.path2 = path
 	return reg
 }

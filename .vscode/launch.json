@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "main_gin_demo",
+            "name": "debug",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -16,7 +16,7 @@
                 "",
                 "configen|demo",
                 "b",
-                "--application.profiles.active-disable=demo4gin",
+                "--application.profiles.active=debug",
                 "--server.portx=7789"
             ]
         }
