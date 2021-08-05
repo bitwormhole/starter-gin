@@ -6,6 +6,7 @@ import (
 )
 
 type ContentTypeManager interface {
+	Find(pathname string) string
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,12 @@ type DefaultContentTypeManager struct {
 
 func (inst *DefaultContentTypeManager) _Impl() ContentTypeManager {
 	return inst
+}
+
+func (inst *DefaultContentTypeManager) Find(name string) string {
+
+	// TODO : ...
+	return "todo..."
 }
 
 ////////////////////////////////////////////////////////////////////////////////

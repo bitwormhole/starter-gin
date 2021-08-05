@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 
+	"github.com/bitwormhole/starter-gin/etc/demo"
 	"github.com/bitwormhole/starter-gin/starter"
 )
 
@@ -10,5 +11,9 @@ import (
 var resources embed.FS
 
 func main() {
-	starter.Gin().EmbedResources(&resources, "src/main/resources").Run()
+	appinit := starter.Gin().EmbedResources(&resources, "src/main/resources")
+	appinit.Use(demo.ExportModule())
+	appinit.Use(demo.ExportModule())
+	appinit.Use(demo.ExportModule())
+	appinit.Run()
 }

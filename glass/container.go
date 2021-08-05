@@ -6,6 +6,7 @@ import "github.com/bitwormhole/starter/application"
 type Container struct {
 
 	// public
+
 	Name         string
 	Server       *Server
 	Connectors   []Connector
@@ -15,5 +16,6 @@ type Container struct {
 	AppContext   application.Context
 
 	// private
+
 	runtime *serverRuntime
 }

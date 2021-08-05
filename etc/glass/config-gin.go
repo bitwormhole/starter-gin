@@ -50,7 +50,7 @@ type theStaticWebService struct {
 
 	Container   *glass.Container   `inject:"#gin-web-container"`
 	ContextPath string             `inject:"${web.static.context-path}"`
-	Controllers []glass.Controller `inject:".rest-controller"`
+	Controllers []glass.Controller `inject:".static-web-controller"`
 }
 
 type theRestWebService struct {

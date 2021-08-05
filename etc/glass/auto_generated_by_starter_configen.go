@@ -797,7 +797,7 @@ func (inst *theStaticWebService) __inject__(context application.Context) error {
 	// from getters
 	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
 	inst.ContextPath=inst.__get_ContextPath__(injection, "${web.static.context-path}")
-	inst.Controllers=inst.__get_Controllers__(injection, ".rest-controller")
+	inst.Controllers=inst.__get_Controllers__(injection, ".static-web-controller")
 
 
 	// to instance
