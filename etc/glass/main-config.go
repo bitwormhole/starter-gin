@@ -22,6 +22,8 @@ const (
 	ServerHttpsHost   = "server.https.host"
 	ServerHttpsEnable = "server.https.enable"
 
+	GinMode = "gin.mode"
+
 	WebErrorPageResource    = "web.error-page.resource"
 	WebErrorPageContentType = "web.error-page.content-type"
 	WebErrorPageStatus      = "web.error-page.status"
@@ -51,6 +53,8 @@ func mainConfig(cb application.ConfigBuilder) error {
 	p.SetProperty(ServerHttpsHost, "0.0.0.0")
 	p.SetProperty(ServerHttpsPort, "8443")
 	p.SetProperty(ServerHttpsEnable, "false")
+
+	p.SetProperty(GinMode, "debug")
 
 	return autoGenConfig(cb)
 }

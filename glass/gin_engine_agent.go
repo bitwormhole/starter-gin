@@ -34,12 +34,22 @@ func (inst *ginEngineAgent) openMock() (EngineConnection, error) {
 	return mock.init(), nil
 }
 
+func (inst *ginEngineAgent) SetMode(mode string) {
+	if mode == gin.ReleaseMode {
+		gin.SetMode(mode)
+
+	} else if mode == gin.DebugMode {
+		gin.SetMode(mode)
+
+	} else if mode == gin.TestMode {
+		gin.SetMode(mode)
+
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+}
+
 func (inst *ginEngineAgent) open() (EngineConnection, error) {
-
-	gin.SetMode(gin.ReleaseMode)
-	gin.SetMode(gin.DebugMode)
-	gin.SetMode(gin.TestMode)
-
 	conn := inst.init()
 	return conn, nil
 }

@@ -606,12 +606,14 @@ func (inst *theHTTPConnector) __inject__(context application.Context) error {
 
 	// from getters
 	inst.Enable=inst.__get_Enable__(injection, "${server.enable}")
+	inst.GinMode=inst.__get_GinMode__(injection, "${gin.mode}")
 	inst.Host=inst.__get_Host__(injection, "${server.host}")
 	inst.Port=inst.__get_Port__(injection, "${server.port}")
 
 
 	// to instance
 	instance.Enable=inst.Enable
+	instance.GinMode=inst.GinMode
 	instance.Host=inst.Host
 	instance.Port=inst.Port
 
@@ -626,6 +628,16 @@ func (inst * theHTTPConnector) __get_Enable__(injection application.Injection,se
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadBool()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * theHTTPConnector) __get_GinMode__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
 	if err != nil {
 		injection.OnError(err)
 	}
@@ -670,12 +682,14 @@ func (inst *theHTTPSConnector) __inject__(context application.Context) error {
 
 	// from getters
 	inst.Enable=inst.__get_Enable__(injection, "${server.https.enable}")
+	inst.GinMode=inst.__get_GinMode__(injection, "${gin.mode}")
 	inst.Host=inst.__get_Host__(injection, "${server.https.host}")
 	inst.Port=inst.__get_Port__(injection, "${server.https.port}")
 
 
 	// to instance
 	instance.Enable=inst.Enable
+	instance.GinMode=inst.GinMode
 	instance.Host=inst.Host
 	instance.Port=inst.Port
 
@@ -690,6 +704,16 @@ func (inst * theHTTPSConnector) __get_Enable__(injection application.Injection,s
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadBool()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * theHTTPSConnector) __get_GinMode__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
 	if err != nil {
 		injection.OnError(err)
 	}

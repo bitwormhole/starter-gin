@@ -30,6 +30,8 @@ type theHTTPConnector struct {
 	markup.Component
 	instance *glass.HTTPConnector `class:"web-server-connector"`
 
+	GinMode string `inject:"${gin.mode}"`
+
 	Host   string `inject:"${server.host}"`
 	Port   int    `inject:"${server.port}"`
 	Enable bool   `inject:"${server.enable}"`
@@ -38,6 +40,8 @@ type theHTTPConnector struct {
 type theHTTPSConnector struct {
 	markup.Component
 	instance *glass.HTTPSConnector `class:"web-server-connector"`
+
+	GinMode string `inject:"${gin.mode}"`
 
 	Host   string `inject:"${server.https.host}"`
 	Port   int    `inject:"${server.https.port}"`

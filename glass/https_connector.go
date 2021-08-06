@@ -6,6 +6,8 @@ type HTTPSConnector struct {
 	Port   int
 	Enable bool
 
+	GinMode string
+
 	CertificateFile string
 	PrivateKeyFile  string
 }
@@ -17,6 +19,7 @@ func (inst *HTTPSConnector) _Impl() Connector {
 // Open 打开连接
 func (inst *HTTPSConnector) Open() (EngineConnection, error) {
 	agent := &ginEngineAgent{}
+	agent.SetMode(inst.GinMode)
 	if inst.Enable {
 		return agent.open()
 	}
