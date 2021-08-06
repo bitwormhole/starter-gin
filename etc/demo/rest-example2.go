@@ -1,7 +1,6 @@
 package demo
 
 import (
-	"log"
 	"time"
 
 	"github.com/bitwormhole/starter-gin/glass"
@@ -38,17 +37,17 @@ func (inst *ExampleController2) Init(conn glass.EngineConnection) error {
 }
 
 func (inst *ExampleController2) f1(c *gin.Context) {
-	log.Println("do:filter:1")
+	// log.Println("do:filter:1")
 	c.Next()
 }
 
 func (inst *ExampleController2) f2(c *gin.Context) {
-	log.Println("do:filter:2")
+	// log.Println("do:filter:2")
 	c.Next()
 }
 
 func (inst *ExampleController2) f3(c *gin.Context) {
-	log.Println("do:filter:3")
+	// log.Println("do:filter:3")
 	c.Next()
 }
 

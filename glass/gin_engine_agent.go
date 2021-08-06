@@ -35,6 +35,11 @@ func (inst *ginEngineAgent) openMock() (EngineConnection, error) {
 }
 
 func (inst *ginEngineAgent) open() (EngineConnection, error) {
+
+	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.TestMode)
+
 	conn := inst.init()
 	return conn, nil
 }
@@ -206,6 +211,16 @@ func (inst *ginEngineConnection) Filter(order int, h gin.HandlerFunc) {
 
 	agent := inst.agent
 	agent.filters = append(agent.filters, reg)
+}
+
+func (inst *ginEngineConnection) HandleNoMethod(h gin.HandlerFunc) {
+
+	inst.agent.engine.NoMethod(h)
+}
+
+func (inst *ginEngineConnection) HandleNoResource(h gin.HandlerFunc) {
+
+	inst.agent.engine.NoRoute(h)
 }
 
 func (inst *ginEngineConnection) Handle(method string, path string, h gin.HandlerFunc) {

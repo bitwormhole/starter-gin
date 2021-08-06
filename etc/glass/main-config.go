@@ -2,15 +2,6 @@ package glass
 
 import "github.com/bitwormhole/starter/application"
 
-// ExportModule 对外导出本模块
-func ExportModule() application.Module {
-	return &application.DefineModule{
-		Name:    "github.com/bitwormhole/starter-gin/glass",
-		Version: "1.0",
-		OnMount: func(cb application.ConfigBuilder) error { return mainConfig(cb) },
-	}
-}
-
 const (
 	// WebStaticContextPath  静态web资源的上下文路径
 	WebStaticContextPath            = "web.static.context-path"
@@ -30,6 +21,10 @@ const (
 	ServerHttpsPort   = "server.https.port"
 	ServerHttpsHost   = "server.https.host"
 	ServerHttpsEnable = "server.https.enable"
+
+	WebErrorPageResource    = "web.error-page.resource"
+	WebErrorPageContentType = "web.error-page.content-type"
+	WebErrorPageStatus      = "web.error-page.status"
 )
 
 func mainConfig(cb application.ConfigBuilder) error {
@@ -40,10 +35,14 @@ func mainConfig(cb application.ConfigBuilder) error {
 
 	p.SetProperty(WebStaticContextPath, "/")
 	p.SetProperty(WebStaticIndexPages, "index.html, index.htm")
-	p.SetProperty(WebStaticContentTypesProperties, "res:///static-content-types.properties")
+	p.SetProperty(WebStaticContentTypesProperties, "res:///content-types.properties")
 	p.SetProperty(WebStaticRoot, "res:///static")
 
-	p.SetProperty(ServerName, "www")
+	p.SetProperty(WebErrorPageContentType, "text/html")
+	p.SetProperty(WebErrorPageResource, "res:///static/http404.html")
+	p.SetProperty(WebErrorPageStatus, "404")
+
+	p.SetProperty(ServerName, "default")
 	p.SetProperty(ServerHost, "0.0.0.0")
 	p.SetProperty(ServerPort, "8080")
 	p.SetProperty(ServerEnable, "true")

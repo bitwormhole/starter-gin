@@ -18,6 +18,33 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 	err := errors.New("OK")
 
     
+	// the
+	cominfobuilder.Reset()
+	cominfobuilder.ID("the").Class("static-web-controller").Scope("").Aliases("")
+	cominfobuilder.OnNew(func() lang.Object {
+		return &glass_47343f.ErrorController{}
+	})
+	cominfobuilder.OnInit(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnDestroy(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnInject(func(o lang.Object, context application.Context) error {
+		adapter := &the{}
+		adapter.instance = o.(*glass_47343f.ErrorController)
+		// adapter.context = context
+		err := adapter.__inject__(context)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	err = cominfobuilder.CreateTo(configbuilder)
+    if err !=nil{
+        return err
+    }
+
 	// theContainer
 	cominfobuilder.Reset()
 	cominfobuilder.ID("gin-web-container").Class("").Scope("").Aliases("")
@@ -265,6 +292,101 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 	return nil
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// type the struct
+
+func (inst *the) __inject__(context application.Context) error {
+
+	// prepare
+	instance := inst.instance
+	injection, err := context.Injector().OpenInjection(context)
+	if err != nil {
+		return err
+	}
+	defer injection.Close()
+	if instance == nil {
+		return nil
+	}
+
+	// from getters
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.ContentType=inst.__get_ContentType__(injection, "${web.error-page.content-type}")
+	inst.ResourcePath=inst.__get_ResourcePath__(injection, "${web.error-page.resource}")
+	inst.Status=inst.__get_Status__(injection, "${web.error-page.status}")
+
+
+	// to instance
+	instance.Container=inst.Container
+	instance.ContentType=inst.ContentType
+	instance.ResourcePath=inst.ResourcePath
+	instance.Status=inst.Status
+
+
+	// invoke custom inject method
+
+
+	return injection.Close()
+}
+
+func (inst * the) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
+
+	reader := injection.Select(selector)
+	defer reader.Close()
+
+	cnt := reader.Count()
+	if cnt != 1 {
+		err := errors.New("select.result.count != 1, selector="+selector)
+		injection.OnError(err)
+		return nil
+	}
+
+	o1, err := reader.Read()
+	if err != nil {
+		injection.OnError(err)
+		return nil
+	}
+
+	o2, ok := o1.(*glass_47343f.Container)
+	if !ok {
+		err := errors.New("cannot cast component instance to type: *glass_47343f.Container")
+		injection.OnError(err)
+		return nil
+	}
+
+	return o2
+
+}
+
+func (inst * the) __get_ContentType__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * the) __get_ResourcePath__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * the) __get_Status__(injection application.Injection,selector string) int {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadInt()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // type theContainer struct

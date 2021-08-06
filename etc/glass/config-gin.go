@@ -82,3 +82,14 @@ type theWebContentTypes struct {
 	AppContext      application.Context `inject:"context"`
 	TypesProperties string              `inject:"${web.static.content-types-properties}"`
 }
+
+type the struct {
+	markup.Component
+	instance *glass.ErrorController `class:"static-web-controller"`
+
+	ResourcePath string `inject:"${web.error-page.resource}"`
+	ContentType  string `inject:"${web.error-page.content-type}"`
+	Status       int    `inject:"${web.error-page.status}"`
+
+	Container *glass.Container `inject:"#gin-web-container"`
+}

@@ -12,14 +12,7 @@
             "program": "${workspaceFolder}",
             "env": {},
             "args": [
-                "demo4gin",
-                "",
-                "configen|demo",
-                "--filesystem.resources",
-                "E:\\home\\dev\\test\\var\\gin-starter\\res",
-                "--application.profiles.active=debug",
-                "--web.static.root=res:///www/",
-                "--server.portx=7789"
+                
             ]
         }
     ]

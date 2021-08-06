@@ -15,5 +15,5 @@ func GinStarter() application.Initializer {
 
 // GinModule 获取 gin-starter 模块
 func GinModule() application.Module {
-	return glass.ExportModule()
+	return glass.Module()
 }

@@ -25,6 +25,12 @@ func (inst *ginEngineMockConnection) RequestMapping(path string) EngineConnectio
 	return inst
 }
 
+func (inst *ginEngineMockConnection) HandleNoMethod(h gin.HandlerFunc) {
+}
+
+func (inst *ginEngineMockConnection) HandleNoResource(h gin.HandlerFunc) {
+}
+
 func (inst *ginEngineMockConnection) Handle(method string, path string, h gin.HandlerFunc) {
 }
 
