@@ -3,17 +3,23 @@ package main
 import (
 	"embed"
 
-	"github.com/bitwormhole/starter-gin/etc/demo"
-	"github.com/bitwormhole/starter-gin/starter"
+	initd "github.com/bitwormhole/starter-gin/etc/init.d"
 )
 
 //go:embed src/main/resources
 var resources embed.FS
 
 func main() {
-	appinit := starter.Gin().EmbedResources(&resources, "src/main/resources")
-	appinit.Use(demo.ExportModule())
-	appinit.Use(demo.ExportModule())
-	appinit.Use(demo.ExportModule())
+
+	appinit := initd.GinStarter()
+
+	appinit.MountResources(initd.FileSystemResources("args:filesystem.resources"))
+
+	// appinit.EmbedResources(&resources, "src/main/resources")
+
+	// appinit.Use(demo.ExportModule())
+	// appinit.Use(demo.ExportModule())
+	// appinit.Use(demo.ExportModule())
+
 	appinit.Run()
 }

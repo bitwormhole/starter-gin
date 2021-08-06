@@ -3,6 +3,8 @@ package glass
 import (
 	"errors"
 	"log"
+	"reflect"
+	"runtime"
 	"strings"
 	"time"
 
@@ -66,15 +68,23 @@ func (inst *ginEngineAgent) run() error {
 	return inst.runner(inst.engine)
 }
 
+func (inst *ginEngineAgent) nameOfFunction(f interface{}) string {
+	return runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
+}
+
 func (inst *ginEngineAgent) applyFilters() error {
 	engine := inst.engine
 	list := inst.filters
 
-	// TODO : sort
+	sorter := &innerFilterRegistrationSorter{}
+	sorter.sort(list)
 
 	for _, item := range list {
+		name := inst.nameOfFunction(item.fn)
+		log.Println("gin.Engine.Use(f), f =", name)
 		engine.Use(item.fn)
 	}
+
 	return nil
 }
 
@@ -82,13 +92,15 @@ func (inst *ginEngineAgent) applyHandlers() error {
 	engine := inst.engine
 	list := inst.handlers
 
-	// TODO : sort
+	sorter := &innerHandlerRegistrationSorter{}
+	sorter.sort(list)
 
 	for _, item := range list {
 		method := item.method
 		path := item.path
 		engine.Handle(method, path, item.fn)
 	}
+
 	return nil
 }
 

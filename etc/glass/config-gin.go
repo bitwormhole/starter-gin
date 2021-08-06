@@ -65,6 +65,9 @@ type theRestWebService struct {
 type theStaticWebController struct {
 	markup.Component
 	instance *glass.StaticWebResourcesController `class:"static-web-controller"`
+
+	Root      string           `inject:"${web.static.root}"`
+	Container *glass.Container `inject:"#gin-web-container"`
 }
 
 type theExampleRestController struct {

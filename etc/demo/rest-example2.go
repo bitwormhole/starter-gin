@@ -30,9 +30,9 @@ func (inst *ExampleController2) Init(conn glass.EngineConnection) error {
 	conn.Handle("GET", "", func(c *gin.Context) { inst.h(c) })
 	conn.Handle("POST", "", func(c *gin.Context) { inst.h(c) })
 
+	conn.Filter(3, func(c *gin.Context) { inst.f3(c) })
 	conn.Filter(1, func(c *gin.Context) { inst.f1(c) })
 	conn.Filter(2, func(c *gin.Context) { inst.f2(c) })
-	conn.Filter(3, func(c *gin.Context) { inst.f3(c) })
 
 	return nil
 }

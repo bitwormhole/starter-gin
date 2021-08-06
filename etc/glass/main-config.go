@@ -16,6 +16,7 @@ const (
 	WebStaticContextPath            = "web.static.context-path"
 	WebStaticIndexPages             = "web.static.index-pages"
 	WebStaticContentTypesProperties = "web.static.content-types-properties"
+	WebStaticRoot                   = "web.static.root"
 
 	// WebRestContextPath  REST-web资源的上下文路径
 	WebRestContextPath = "web.rest.context-path"
@@ -40,6 +41,7 @@ func mainConfig(cb application.ConfigBuilder) error {
 	p.SetProperty(WebStaticContextPath, "/")
 	p.SetProperty(WebStaticIndexPages, "index.html, index.htm")
 	p.SetProperty(WebStaticContentTypesProperties, "res:///static-content-types.properties")
+	p.SetProperty(WebStaticRoot, "res:///static")
 
 	p.SetProperty(ServerName, "www")
 	p.SetProperty(ServerHost, "0.0.0.0")

@@ -767,15 +767,58 @@ func (inst *theStaticWebController) __inject__(context application.Context) erro
 	}
 
 	// from getters
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.Root=inst.__get_Root__(injection, "${web.static.root}")
 
 
 	// to instance
+	instance.Container=inst.Container
+	instance.Root=inst.Root
 
 
 	// invoke custom inject method
 
 
 	return injection.Close()
+}
+
+func (inst * theStaticWebController) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
+
+	reader := injection.Select(selector)
+	defer reader.Close()
+
+	cnt := reader.Count()
+	if cnt != 1 {
+		err := errors.New("select.result.count != 1, selector="+selector)
+		injection.OnError(err)
+		return nil
+	}
+
+	o1, err := reader.Read()
+	if err != nil {
+		injection.OnError(err)
+		return nil
+	}
+
+	o2, ok := o1.(*glass_47343f.Container)
+	if !ok {
+		err := errors.New("cannot cast component instance to type: *glass_47343f.Container")
+		injection.OnError(err)
+		return nil
+	}
+
+	return o2
+
+}
+
+func (inst * theStaticWebController) __get_Root__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
 }
 
 ////////////////////////////////////////////////////////////////////////////////

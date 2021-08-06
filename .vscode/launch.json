@@ -15,8 +15,10 @@
                 "demo4gin",
                 "",
                 "configen|demo",
-                "b",
+                "--filesystem.resources",
+                "E:\\home\\dev\\test\\var\\gin-starter\\res",
                 "--application.profiles.active=debug",
+                "--web.static.root=res:///www/",
                 "--server.portx=7789"
             ]
         }

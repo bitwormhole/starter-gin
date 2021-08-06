@@ -71,6 +71,33 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
         return err
     }
 
+	// theExampleController3
+	cominfobuilder.Reset()
+	cominfobuilder.ID("theExampleController3").Class("rest-controller").Scope("").Aliases("")
+	cominfobuilder.OnNew(func() lang.Object {
+		return &ExampleController3{}
+	})
+	cominfobuilder.OnInit(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnDestroy(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnInject(func(o lang.Object, context application.Context) error {
+		adapter := &theExampleController3{}
+		adapter.instance = o.(*ExampleController3)
+		// adapter.context = context
+		err := adapter.__inject__(context)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	err = cominfobuilder.CreateTo(configbuilder)
+    if err !=nil{
+        return err
+    }
+
 
 	return nil
 }
@@ -108,6 +135,34 @@ func (inst *theExampleController1) __inject__(context application.Context) error
 // type theExampleController2 struct
 
 func (inst *theExampleController2) __inject__(context application.Context) error {
+
+	// prepare
+	instance := inst.instance
+	injection, err := context.Injector().OpenInjection(context)
+	if err != nil {
+		return err
+	}
+	defer injection.Close()
+	if instance == nil {
+		return nil
+	}
+
+	// from getters
+
+
+	// to instance
+
+
+	// invoke custom inject method
+
+
+	return injection.Close()
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// type theExampleController3 struct
+
+func (inst *theExampleController3) __inject__(context application.Context) error {
 
 	// prepare
 	instance := inst.instance
