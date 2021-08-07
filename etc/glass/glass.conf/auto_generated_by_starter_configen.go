@@ -3,20 +3,21 @@
 
 package glassconf
 
-import (
+import(
 	errors "errors"
-
 	glass_47343f "github.com/bitwormhole/starter-gin/glass"
 	application "github.com/bitwormhole/starter/application"
 	config "github.com/bitwormhole/starter/application/config"
 	lang "github.com/bitwormhole/starter/lang"
 )
 
+
 func autoGenConfig(configbuilder application.ConfigBuilder) error {
 
 	cominfobuilder := &config.ComInfoBuilder{}
 	err := errors.New("OK")
 
+    
 	// the
 	cominfobuilder.Reset()
 	cominfobuilder.ID("the").Class("static-web-controller").Scope("").Aliases("")
@@ -40,9 +41,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theContainer
 	cominfobuilder.Reset()
@@ -67,9 +68,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theExampleRestController
 	cominfobuilder.Reset()
@@ -94,9 +95,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theHTTPConnector
 	cominfobuilder.Reset()
@@ -121,9 +122,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theHTTPSConnector
 	cominfobuilder.Reset()
@@ -148,9 +149,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theRestWebService
 	cominfobuilder.Reset()
@@ -175,9 +176,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theServer
 	cominfobuilder.Reset()
@@ -202,9 +203,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theStaticWebController
 	cominfobuilder.Reset()
@@ -229,9 +230,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theStaticWebService
 	cominfobuilder.Reset()
@@ -256,9 +257,9 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
 
 	// theWebContentTypes
 	cominfobuilder.Reset()
@@ -283,12 +284,14 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
 		return nil
 	})
 	err = cominfobuilder.CreateTo(configbuilder)
-	if err != nil {
-		return err
-	}
+    if err !=nil{
+        return err
+    }
+
 
 	return nil
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // type the struct
@@ -307,30 +310,33 @@ func (inst *the) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.Container = inst.__get_Container__(injection, "#gin-web-container")
-	inst.ContentType = inst.__get_ContentType__(injection, "${web.error-page.content-type}")
-	inst.ResourcePath = inst.__get_ResourcePath__(injection, "${web.error-page.resource}")
-	inst.Status = inst.__get_Status__(injection, "${web.error-page.status}")
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.ContentType=inst.__get_ContentType__(injection, "${web.error-page.content-type}")
+	inst.ResourcePath=inst.__get_ResourcePath__(injection, "${web.error-page.resource}")
+	inst.Status=inst.__get_Status__(injection, "${web.error-page.status}")
+
 
 	// to instance
-	instance.Container = inst.Container
-	instance.ContentType = inst.ContentType
-	instance.ResourcePath = inst.ResourcePath
-	instance.Status = inst.Status
+	instance.Container=inst.Container
+	instance.ContentType=inst.ContentType
+	instance.ResourcePath=inst.ResourcePath
+	instance.Status=inst.Status
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *the) __get_Container__(injection application.Injection, selector string) *glass_47343f.Container {
+func (inst * the) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -352,7 +358,7 @@ func (inst *the) __get_Container__(injection application.Injection, selector str
 
 }
 
-func (inst *the) __get_ContentType__(injection application.Injection, selector string) string {
+func (inst * the) __get_ContentType__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -362,7 +368,7 @@ func (inst *the) __get_ContentType__(injection application.Injection, selector s
 	return value
 }
 
-func (inst *the) __get_ResourcePath__(injection application.Injection, selector string) string {
+func (inst * the) __get_ResourcePath__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -372,7 +378,7 @@ func (inst *the) __get_ResourcePath__(injection application.Injection, selector 
 	return value
 }
 
-func (inst *the) __get_Status__(injection application.Injection, selector string) int {
+func (inst * the) __get_Status__(injection application.Injection,selector string) int {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadInt()
@@ -399,33 +405,36 @@ func (inst *theContainer) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.AppContext = inst.__get_AppContext__(injection, "context")
-	inst.Connectors = inst.__get_Connectors__(injection, ".web-server-connector")
-	inst.ContentTypes = inst.__get_ContentTypes__(injection, "#gin-web-content-types")
-	inst.IndexPages = inst.__get_IndexPages__(injection, "${web.static.index-pages}")
-	inst.Name = inst.__get_Name__(injection, "${server.name}")
-	inst.Server = inst.__get_Server__(injection, "#gin-web-server")
-	inst.Services = inst.__get_Services__(injection, ".web-context")
+	inst.AppContext=inst.__get_AppContext__(injection, "context")
+	inst.Connectors=inst.__get_Connectors__(injection, ".web-server-connector")
+	inst.ContentTypes=inst.__get_ContentTypes__(injection, "#gin-web-content-types")
+	inst.IndexPages=inst.__get_IndexPages__(injection, "${web.static.index-pages}")
+	inst.Name=inst.__get_Name__(injection, "${server.name}")
+	inst.Server=inst.__get_Server__(injection, "#gin-web-server")
+	inst.Services=inst.__get_Services__(injection, ".web-context")
+
 
 	// to instance
-	instance.AppContext = inst.AppContext
-	instance.Connectors = inst.Connectors
-	instance.ContentTypes = inst.ContentTypes
-	instance.IndexPages = inst.IndexPages
-	instance.Name = inst.Name
-	instance.Server = inst.Server
-	instance.Services = inst.Services
+	instance.AppContext=inst.AppContext
+	instance.Connectors=inst.Connectors
+	instance.ContentTypes=inst.ContentTypes
+	instance.IndexPages=inst.IndexPages
+	instance.Name=inst.Name
+	instance.Server=inst.Server
+	instance.Services=inst.Services
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theContainer) __get_AppContext__(injection application.Injection, selector string) application.Context {
+func (inst * theContainer) __get_AppContext__(injection application.Injection,selector string) application.Context {
 	return injection.Context()
 }
 
-func (inst *theContainer) __get_Connectors__(injection application.Injection, selector string) []glass_47343f.Connector {
+func (inst * theContainer) __get_Connectors__(injection application.Injection,selector string) []glass_47343f.Connector {
 	list := make([]glass_47343f.Connector, 0)
 	reader := injection.Select(selector)
 	defer reader.Close()
@@ -449,14 +458,14 @@ func (inst *theContainer) __get_Connectors__(injection application.Injection, se
 
 }
 
-func (inst *theContainer) __get_ContentTypes__(injection application.Injection, selector string) glass_47343f.ContentTypeManager {
+func (inst * theContainer) __get_ContentTypes__(injection application.Injection,selector string) glass_47343f.ContentTypeManager {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -478,7 +487,7 @@ func (inst *theContainer) __get_ContentTypes__(injection application.Injection, 
 
 }
 
-func (inst *theContainer) __get_IndexPages__(injection application.Injection, selector string) string {
+func (inst * theContainer) __get_IndexPages__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -488,7 +497,7 @@ func (inst *theContainer) __get_IndexPages__(injection application.Injection, se
 	return value
 }
 
-func (inst *theContainer) __get_Name__(injection application.Injection, selector string) string {
+func (inst * theContainer) __get_Name__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -498,14 +507,14 @@ func (inst *theContainer) __get_Name__(injection application.Injection, selector
 	return value
 }
 
-func (inst *theContainer) __get_Server__(injection application.Injection, selector string) *glass_47343f.Server {
+func (inst * theContainer) __get_Server__(injection application.Injection,selector string) *glass_47343f.Server {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -527,7 +536,7 @@ func (inst *theContainer) __get_Server__(injection application.Injection, select
 
 }
 
-func (inst *theContainer) __get_Services__(injection application.Injection, selector string) []*glass_47343f.WebContext {
+func (inst * theContainer) __get_Services__(injection application.Injection,selector string) []*glass_47343f.WebContext {
 	list := make([]*glass_47343f.WebContext, 0)
 	reader := injection.Select(selector)
 	defer reader.Close()
@@ -569,9 +578,12 @@ func (inst *theExampleRestController) __inject__(context application.Context) er
 
 	// from getters
 
+
 	// to instance
 
+
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
@@ -593,23 +605,26 @@ func (inst *theHTTPConnector) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.Enable = inst.__get_Enable__(injection, "${server.enable}")
-	inst.GinMode = inst.__get_GinMode__(injection, "${gin.mode}")
-	inst.Host = inst.__get_Host__(injection, "${server.host}")
-	inst.Port = inst.__get_Port__(injection, "${server.port}")
+	inst.Enable=inst.__get_Enable__(injection, "${server.enable}")
+	inst.GinMode=inst.__get_GinMode__(injection, "${gin.mode}")
+	inst.Host=inst.__get_Host__(injection, "${server.host}")
+	inst.Port=inst.__get_Port__(injection, "${server.port}")
+
 
 	// to instance
-	instance.Enable = inst.Enable
-	instance.GinMode = inst.GinMode
-	instance.Host = inst.Host
-	instance.Port = inst.Port
+	instance.Enable=inst.Enable
+	instance.GinMode=inst.GinMode
+	instance.Host=inst.Host
+	instance.Port=inst.Port
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theHTTPConnector) __get_Enable__(injection application.Injection, selector string) bool {
+func (inst * theHTTPConnector) __get_Enable__(injection application.Injection,selector string) bool {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadBool()
@@ -619,7 +634,7 @@ func (inst *theHTTPConnector) __get_Enable__(injection application.Injection, se
 	return value
 }
 
-func (inst *theHTTPConnector) __get_GinMode__(injection application.Injection, selector string) string {
+func (inst * theHTTPConnector) __get_GinMode__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -629,7 +644,7 @@ func (inst *theHTTPConnector) __get_GinMode__(injection application.Injection, s
 	return value
 }
 
-func (inst *theHTTPConnector) __get_Host__(injection application.Injection, selector string) string {
+func (inst * theHTTPConnector) __get_Host__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -639,7 +654,7 @@ func (inst *theHTTPConnector) __get_Host__(injection application.Injection, sele
 	return value
 }
 
-func (inst *theHTTPConnector) __get_Port__(injection application.Injection, selector string) int {
+func (inst * theHTTPConnector) __get_Port__(injection application.Injection,selector string) int {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadInt()
@@ -666,27 +681,30 @@ func (inst *theHTTPSConnector) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.CertificateFile = inst.__get_CertificateFile__(injection, "${server.https.cert-file}")
-	inst.Enable = inst.__get_Enable__(injection, "${server.https.enable}")
-	inst.GinMode = inst.__get_GinMode__(injection, "${gin.mode}")
-	inst.Host = inst.__get_Host__(injection, "${server.https.host}")
-	inst.Port = inst.__get_Port__(injection, "${server.https.port}")
-	inst.PrivateKeyFile = inst.__get_PrivateKeyFile__(injection, "${server.https.key-file}")
+	inst.CertificateFile=inst.__get_CertificateFile__(injection, "${server.https.cert-file}")
+	inst.Enable=inst.__get_Enable__(injection, "${server.https.enable}")
+	inst.GinMode=inst.__get_GinMode__(injection, "${gin.mode}")
+	inst.Host=inst.__get_Host__(injection, "${server.https.host}")
+	inst.Port=inst.__get_Port__(injection, "${server.https.port}")
+	inst.PrivateKeyFile=inst.__get_PrivateKeyFile__(injection, "${server.https.key-file}")
+
 
 	// to instance
-	instance.CertificateFile = inst.CertificateFile
-	instance.Enable = inst.Enable
-	instance.GinMode = inst.GinMode
-	instance.Host = inst.Host
-	instance.Port = inst.Port
-	instance.PrivateKeyFile = inst.PrivateKeyFile
+	instance.CertificateFile=inst.CertificateFile
+	instance.Enable=inst.Enable
+	instance.GinMode=inst.GinMode
+	instance.Host=inst.Host
+	instance.Port=inst.Port
+	instance.PrivateKeyFile=inst.PrivateKeyFile
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theHTTPSConnector) __get_CertificateFile__(injection application.Injection, selector string) string {
+func (inst * theHTTPSConnector) __get_CertificateFile__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -696,7 +714,7 @@ func (inst *theHTTPSConnector) __get_CertificateFile__(injection application.Inj
 	return value
 }
 
-func (inst *theHTTPSConnector) __get_Enable__(injection application.Injection, selector string) bool {
+func (inst * theHTTPSConnector) __get_Enable__(injection application.Injection,selector string) bool {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadBool()
@@ -706,7 +724,7 @@ func (inst *theHTTPSConnector) __get_Enable__(injection application.Injection, s
 	return value
 }
 
-func (inst *theHTTPSConnector) __get_GinMode__(injection application.Injection, selector string) string {
+func (inst * theHTTPSConnector) __get_GinMode__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -716,7 +734,7 @@ func (inst *theHTTPSConnector) __get_GinMode__(injection application.Injection, 
 	return value
 }
 
-func (inst *theHTTPSConnector) __get_Host__(injection application.Injection, selector string) string {
+func (inst * theHTTPSConnector) __get_Host__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -726,7 +744,7 @@ func (inst *theHTTPSConnector) __get_Host__(injection application.Injection, sel
 	return value
 }
 
-func (inst *theHTTPSConnector) __get_Port__(injection application.Injection, selector string) int {
+func (inst * theHTTPSConnector) __get_Port__(injection application.Injection,selector string) int {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadInt()
@@ -736,7 +754,7 @@ func (inst *theHTTPSConnector) __get_Port__(injection application.Injection, sel
 	return value
 }
 
-func (inst *theHTTPSConnector) __get_PrivateKeyFile__(injection application.Injection, selector string) string {
+func (inst * theHTTPSConnector) __get_PrivateKeyFile__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -763,28 +781,31 @@ func (inst *theRestWebService) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.Container = inst.__get_Container__(injection, "#gin-web-container")
-	inst.ContextPath = inst.__get_ContextPath__(injection, "${web.rest.context-path}")
-	inst.Controllers = inst.__get_Controllers__(injection, ".rest-controller")
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.ContextPath=inst.__get_ContextPath__(injection, "${web.rest.context-path}")
+	inst.Controllers=inst.__get_Controllers__(injection, ".rest-controller")
+
 
 	// to instance
-	instance.Container = inst.Container
-	instance.ContextPath = inst.ContextPath
-	instance.Controllers = inst.Controllers
+	instance.Container=inst.Container
+	instance.ContextPath=inst.ContextPath
+	instance.Controllers=inst.Controllers
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theRestWebService) __get_Container__(injection application.Injection, selector string) *glass_47343f.Container {
+func (inst * theRestWebService) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -806,7 +827,7 @@ func (inst *theRestWebService) __get_Container__(injection application.Injection
 
 }
 
-func (inst *theRestWebService) __get_ContextPath__(injection application.Injection, selector string) string {
+func (inst * theRestWebService) __get_ContextPath__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -816,7 +837,7 @@ func (inst *theRestWebService) __get_ContextPath__(injection application.Injecti
 	return value
 }
 
-func (inst *theRestWebService) __get_Controllers__(injection application.Injection, selector string) []glass_47343f.Controller {
+func (inst * theRestWebService) __get_Controllers__(injection application.Injection,selector string) []glass_47343f.Controller {
 	list := make([]glass_47343f.Controller, 0)
 	reader := injection.Select(selector)
 	defer reader.Close()
@@ -857,24 +878,27 @@ func (inst *theServer) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.Container = inst.__get_Container__(injection, "#gin-web-container")
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+
 
 	// to instance
-	instance.Container = inst.Container
+	instance.Container=inst.Container
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theServer) __get_Container__(injection application.Injection, selector string) *glass_47343f.Container {
+func (inst * theServer) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -913,26 +937,29 @@ func (inst *theStaticWebController) __inject__(context application.Context) erro
 	}
 
 	// from getters
-	inst.Container = inst.__get_Container__(injection, "#gin-web-container")
-	inst.Root = inst.__get_Root__(injection, "${web.static.root}")
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.Root=inst.__get_Root__(injection, "${web.static.root}")
+
 
 	// to instance
-	instance.Container = inst.Container
-	instance.Root = inst.Root
+	instance.Container=inst.Container
+	instance.Root=inst.Root
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theStaticWebController) __get_Container__(injection application.Injection, selector string) *glass_47343f.Container {
+func (inst * theStaticWebController) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -954,7 +981,7 @@ func (inst *theStaticWebController) __get_Container__(injection application.Inje
 
 }
 
-func (inst *theStaticWebController) __get_Root__(injection application.Injection, selector string) string {
+func (inst * theStaticWebController) __get_Root__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -981,28 +1008,31 @@ func (inst *theStaticWebService) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.Container = inst.__get_Container__(injection, "#gin-web-container")
-	inst.ContextPath = inst.__get_ContextPath__(injection, "${web.static.context-path}")
-	inst.Controllers = inst.__get_Controllers__(injection, ".static-web-controller")
+	inst.Container=inst.__get_Container__(injection, "#gin-web-container")
+	inst.ContextPath=inst.__get_ContextPath__(injection, "${web.static.context-path}")
+	inst.Controllers=inst.__get_Controllers__(injection, ".static-web-controller")
+
 
 	// to instance
-	instance.Container = inst.Container
-	instance.ContextPath = inst.ContextPath
-	instance.Controllers = inst.Controllers
+	instance.Container=inst.Container
+	instance.ContextPath=inst.ContextPath
+	instance.Controllers=inst.Controllers
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theStaticWebService) __get_Container__(injection application.Injection, selector string) *glass_47343f.Container {
+func (inst * theStaticWebService) __get_Container__(injection application.Injection,selector string) *glass_47343f.Container {
 
 	reader := injection.Select(selector)
 	defer reader.Close()
 
 	cnt := reader.Count()
 	if cnt != 1 {
-		err := errors.New("select.result.count != 1, selector=" + selector)
+		err := errors.New("select.result.count != 1, selector="+selector)
 		injection.OnError(err)
 		return nil
 	}
@@ -1024,7 +1054,7 @@ func (inst *theStaticWebService) __get_Container__(injection application.Injecti
 
 }
 
-func (inst *theStaticWebService) __get_ContextPath__(injection application.Injection, selector string) string {
+func (inst * theStaticWebService) __get_ContextPath__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -1034,7 +1064,7 @@ func (inst *theStaticWebService) __get_ContextPath__(injection application.Injec
 	return value
 }
 
-func (inst *theStaticWebService) __get_Controllers__(injection application.Injection, selector string) []glass_47343f.Controller {
+func (inst * theStaticWebService) __get_Controllers__(injection application.Injection,selector string) []glass_47343f.Controller {
 	list := make([]glass_47343f.Controller, 0)
 	reader := injection.Select(selector)
 	defer reader.Close()
@@ -1075,23 +1105,26 @@ func (inst *theWebContentTypes) __inject__(context application.Context) error {
 	}
 
 	// from getters
-	inst.AppContext = inst.__get_AppContext__(injection, "context")
-	inst.TypesProperties = inst.__get_TypesProperties__(injection, "${web.static.content-types-properties}")
+	inst.AppContext=inst.__get_AppContext__(injection, "context")
+	inst.TypesProperties=inst.__get_TypesProperties__(injection, "${web.static.content-types-properties}")
+
 
 	// to instance
-	instance.AppContext = inst.AppContext
-	instance.TypesProperties = inst.TypesProperties
+	instance.AppContext=inst.AppContext
+	instance.TypesProperties=inst.TypesProperties
+
 
 	// invoke custom inject method
+
 
 	return injection.Close()
 }
 
-func (inst *theWebContentTypes) __get_AppContext__(injection application.Injection, selector string) application.Context {
+func (inst * theWebContentTypes) __get_AppContext__(injection application.Injection,selector string) application.Context {
 	return injection.Context()
 }
 
-func (inst *theWebContentTypes) __get_TypesProperties__(injection application.Injection, selector string) string {
+func (inst * theWebContentTypes) __get_TypesProperties__(injection application.Injection,selector string) string {
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadString()
@@ -1100,3 +1133,4 @@ func (inst *theWebContentTypes) __get_TypesProperties__(injection application.In
 	}
 	return value
 }
+

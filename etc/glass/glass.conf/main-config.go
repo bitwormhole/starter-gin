@@ -1,6 +1,10 @@
 package glassconf
 
-import "github.com/bitwormhole/starter/application"
+import (
+	"strconv"
+
+	"github.com/bitwormhole/starter/application"
+)
 
 const (
 	// WebStaticContextPath  静态web资源的上下文路径
@@ -31,9 +35,13 @@ const (
 	WebErrorPageStatus      = "web.error-page.status"
 )
 
-func MainConfig(cb application.ConfigBuilder) error {
+func MainConfig(cb application.ConfigBuilder, module application.Module) error {
 
 	p := cb.DefaultProperties()
+
+	p.SetProperty("module.starter-gin.name", module.GetName())
+	p.SetProperty("module.starter-gin.version", module.GetVersion())
+	p.SetProperty("module.starter-gin.revision", strconv.Itoa(module.GetRevision()))
 
 	p.SetProperty(WebRestContextPath, "/api")
 
