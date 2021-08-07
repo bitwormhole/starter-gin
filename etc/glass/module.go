@@ -9,8 +9,8 @@ import (
 func ExportModule() application.Module {
 	return &application.DefineModule{
 		Name:     "github.com/bitwormhole/starter-gin",
-		Version:  "v0.0.5",
-		Revision: 5,
+		Version:  "v0.0.7",
+		Revision: 7,
 		OnMount:  func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb) },
 	}
 }
