@@ -46,6 +46,9 @@ type theHTTPSConnector struct {
 	Host   string `inject:"${server.https.host}"`
 	Port   int    `inject:"${server.https.port}"`
 	Enable bool   `inject:"${server.https.enable}"`
+
+	CertificateFile string `inject:"${server.https.cert-file}"`
+	PrivateKeyFile  string `inject:"${server.https.key-file}"`
 }
 
 type theStaticWebService struct {

@@ -681,23 +681,37 @@ func (inst *theHTTPSConnector) __inject__(context application.Context) error {
 	}
 
 	// from getters
+	inst.CertificateFile=inst.__get_CertificateFile__(injection, "${server.https.cert-file}")
 	inst.Enable=inst.__get_Enable__(injection, "${server.https.enable}")
 	inst.GinMode=inst.__get_GinMode__(injection, "${gin.mode}")
 	inst.Host=inst.__get_Host__(injection, "${server.https.host}")
 	inst.Port=inst.__get_Port__(injection, "${server.https.port}")
+	inst.PrivateKeyFile=inst.__get_PrivateKeyFile__(injection, "${server.https.key-file}")
 
 
 	// to instance
+	instance.CertificateFile=inst.CertificateFile
 	instance.Enable=inst.Enable
 	instance.GinMode=inst.GinMode
 	instance.Host=inst.Host
 	instance.Port=inst.Port
+	instance.PrivateKeyFile=inst.PrivateKeyFile
 
 
 	// invoke custom inject method
 
 
 	return injection.Close()
+}
+
+func (inst * theHTTPSConnector) __get_CertificateFile__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
 }
 
 func (inst * theHTTPSConnector) __get_Enable__(injection application.Injection,selector string) bool {
@@ -734,6 +748,16 @@ func (inst * theHTTPSConnector) __get_Port__(injection application.Injection,sel
 	reader := injection.Select(selector)
 	defer reader.Close()
 	value, err := reader.ReadInt()
+	if err != nil {
+		injection.OnError(err)
+	}
+	return value
+}
+
+func (inst * theHTTPSConnector) __get_PrivateKeyFile__(injection application.Injection,selector string) string {
+	reader := injection.Select(selector)
+	defer reader.Close()
+	value, err := reader.ReadString()
 	if err != nil {
 		injection.OnError(err)
 	}
