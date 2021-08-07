@@ -1,13 +1,16 @@
 package glass
 
-import application "github.com/bitwormhole/starter/application"
+import (
+	glassconf "github.com/bitwormhole/starter-gin/etc/glass/glass.conf"
+	application "github.com/bitwormhole/starter/application"
+)
 
-// Module 对外导出本模块
-func Module() application.Module {
+// ExportModule 定义要导出的模块, use 【startergin.Module()】from outside
+func ExportModule() application.Module {
 	return &application.DefineModule{
-		Name:     "github.com/bitwormhole/starter-gin/glass",
+		Name:     "github.com/bitwormhole/starter-gin",
 		Version:  "v0.0.5",
 		Revision: 5,
-		OnMount:  func(cb application.ConfigBuilder) error { return mainConfig(cb) },
+		OnMount:  func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb) },
 	}
 }

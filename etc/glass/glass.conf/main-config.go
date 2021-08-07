@@ -1,4 +1,4 @@
-package glass
+package glassconf
 
 import "github.com/bitwormhole/starter/application"
 
@@ -17,10 +17,12 @@ const (
 	ServerHost   = "server.host"
 	ServerEnable = "server.enable"
 
-	ServerHttpsName   = "server.https.name"
-	ServerHttpsPort   = "server.https.port"
-	ServerHttpsHost   = "server.https.host"
-	ServerHttpsEnable = "server.https.enable"
+	ServerHttpsName     = "server.https.name"
+	ServerHttpsPort     = "server.https.port"
+	ServerHttpsHost     = "server.https.host"
+	ServerHttpsEnable   = "server.https.enable"
+	ServerHttpsKeyFile  = "server.https.key-file"
+	ServerHttpsCertFile = "server.https.cert-file"
 
 	GinMode = "gin.mode"
 
@@ -29,7 +31,7 @@ const (
 	WebErrorPageStatus      = "web.error-page.status"
 )
 
-func mainConfig(cb application.ConfigBuilder) error {
+func MainConfig(cb application.ConfigBuilder) error {
 
 	p := cb.DefaultProperties()
 
@@ -53,6 +55,8 @@ func mainConfig(cb application.ConfigBuilder) error {
 	p.SetProperty(ServerHttpsHost, "0.0.0.0")
 	p.SetProperty(ServerHttpsPort, "8443")
 	p.SetProperty(ServerHttpsEnable, "false")
+	p.SetProperty(ServerHttpsKeyFile, "/ssl/gin-web-server.key")
+	p.SetProperty(ServerHttpsCertFile, "/ssl/gin-web-server.crt")
 
 	p.SetProperty(GinMode, "debug")
 

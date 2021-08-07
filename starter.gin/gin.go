@@ -15,5 +15,5 @@ func InitGinApp() application.Initializer {
 
 // Module 函数：返回 starter-gin 模块
 func Module() application.Module {
-	return glass.Module()
+	return glass.ExportModule()
 }
