@@ -30,6 +30,8 @@ func (inst *ExampleController3) Init(conn glass.EngineConnection) error {
 	conn.Handle("GET", "./:id/x/y/z", func(c *gin.Context) { inst.h(c) })
 	conn.Handle("POST", "", func(c *gin.Context) { inst.h(c) })
 
+	conn.Handle("GET", "/test/gin.Context.adapter", func(c *gin.Context) { inst.testContextAdapter(c) })
+
 	// conn.Filter(1, func(c *gin.Context) { inst.h(c) })
 	// conn.Filter(2, func(c *gin.Context) { inst.h(c) })
 	// conn.Filter(3, func(c *gin.Context) { inst.h(c) })
@@ -49,4 +51,17 @@ func (inst *ExampleController3) h(c *gin.Context) {
 		"ID":     id,
 		"Time":   t,
 	})
+}
+
+func (inst *ExampleController3) testContextAdapter(c *gin.Context) {
+
+	cc := glass.CommonContext(c)
+
+	c = glass.GinContext(cc)
+	cc = glass.CommonContext(c)
+
+	c = glass.GinContext(cc)
+	cc = glass.CommonContext(c)
+
+	cc.Value("666")
 }
