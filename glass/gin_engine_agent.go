@@ -113,6 +113,11 @@ func (inst *ginEngineAgent) applyHandlers() error {
 	for _, item := range list {
 		method := item.method
 		path := item.path
+		if item.isdir {
+			if !strings.HasSuffix(path, "/") {
+				path = path + "/"
+			}
+		}
 		engine.Handle(method, path, item.fn)
 	}
 
@@ -235,6 +240,7 @@ func (inst *ginEngineConnection) HandleNoResource(h gin.HandlerFunc) {
 
 func (inst *ginEngineConnection) Handle(method string, path string, h gin.HandlerFunc) {
 
+	isDir := strings.HasSuffix(path, "/")
 	path = inst.computePath(path)
 	path = inst.normalizePath(path)
 
@@ -242,6 +248,7 @@ func (inst *ginEngineConnection) Handle(method string, path string, h gin.Handle
 	reg.method = method
 	reg.path = path
 	reg.fn = h
+	reg.isdir = isDir
 
 	agent := inst.agent
 	agent.handlers = append(agent.handlers, reg)

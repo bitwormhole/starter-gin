@@ -64,7 +64,7 @@ func (inst *StaticWebResourcesController) toIndexParentPath(path string) string 
 	if index < 0 {
 		return "/"
 	}
-	return path[0:index]
+	return path[0 : index+1]
 }
 
 func (inst *StaticWebResourcesController) findContentType(path string) string {

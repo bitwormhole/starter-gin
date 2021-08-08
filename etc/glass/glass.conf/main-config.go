@@ -28,11 +28,13 @@ const (
 	ServerHttpsKeyFile  = "server.https.key-file"
 	ServerHttpsCertFile = "server.https.cert-file"
 
-	GinMode = "gin.mode"
-
 	WebErrorPageResource    = "web.error-page.resource"
 	WebErrorPageContentType = "web.error-page.content-type"
 	WebErrorPageStatus      = "web.error-page.status"
+
+	WebDevToolsEnable = "web.devtools.enable"
+
+	GinMode = "gin.mode"
 )
 
 func MainConfig(cb application.ConfigBuilder, module application.Module) error {
@@ -44,6 +46,7 @@ func MainConfig(cb application.ConfigBuilder, module application.Module) error {
 	p.SetProperty("module.starter-gin.revision", strconv.Itoa(module.GetRevision()))
 
 	p.SetProperty(WebRestContextPath, "/api")
+	p.SetProperty(WebDevToolsEnable, "true")
 
 	p.SetProperty(WebStaticContextPath, "/")
 	p.SetProperty(WebStaticIndexPages, "index.html, index.htm")

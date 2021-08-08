@@ -11,6 +11,7 @@ type innerHandlerRegistration struct {
 	method string
 	path   string
 	fn     gin.HandlerFunc
+	isdir  bool
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,12 @@ func InitGinApp() application.Initializer {
 	return appinit
 }
 
-// Module 函数：返回 starter-gin 模块
+// Module 函数：返回 starter-gin (release)模块
 func Module() application.Module {
-	return glass.ExportModule()
+	return glass.ExportModuleRelease()
+}
+
+// ModuleDebug 函数：返回 starter-gin (debug) 模块
+func ModuleDebug() application.Module {
+	return glass.ExportModuleDebug()
 }
