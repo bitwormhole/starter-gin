@@ -18,8 +18,6 @@ const (
 // Module 定义要导出的模块
 func Module() application.Module {
 
-	dep1 := starter.Module()
-
 	mod := &application.DefineModule{
 		Name:     myName,
 		Version:  myVersion,
@@ -28,7 +26,7 @@ func Module() application.Module {
 
 	mod.OnMount = func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb, mod) }
 	mod.Resources = srcmain.ExportResources()
-	mod.Dependencies = []application.Module{dep1}
+	mod.AddDependency(starter.Module())
 
 	return mod
 }
@@ -36,19 +34,15 @@ func Module() application.Module {
 // ModuleWithDevtools 定义要导出的模块(with devtools)
 func ModuleWithDevtools() application.Module {
 
-	res := devtools.ExportResources()
-
-	dep1 := Module()
-	deps := []application.Module{dep1}
-
 	mod := &application.DefineModule{
-		Name:         myName + "/+devtools",
-		Version:      myVersion,
-		Revision:     myRevision,
-		Resources:    res,
-		Dependencies: deps,
+		Name:     myName + "/+devtools",
+		Version:  myVersion,
+		Revision: myRevision,
 	}
 
 	mod.OnMount = func(cb application.ConfigBuilder) error { return etcdevtools.ExportConfig(cb) }
+	mod.Resources = devtools.ExportResources()
+	mod.AddDependency(Module())
+
 	return mod
 }
