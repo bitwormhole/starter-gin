@@ -11,8 +11,8 @@ import (
 
 const (
 	myName     = "github.com/bitwormhole/starter-gin"
-	myVersion  = "v0.0.10"
-	myRevision = 10
+	myVersion  = "v0.0.11"
+	myRevision = 11
 )
 
 // Module 定义要导出的模块
