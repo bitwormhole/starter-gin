@@ -1,4 +1,4 @@
-package srcdebuggolang
+package devtools
 
 type RequestRecordDTO struct {
 	TimeBegin int64

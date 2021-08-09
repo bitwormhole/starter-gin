@@ -1,4 +1,4 @@
-package srcdebuggolang
+package devtools
 
 import (
 	"net/http"

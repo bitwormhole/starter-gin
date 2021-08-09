@@ -1,4 +1,4 @@
-package srcdebug
+package devtools
 
 import (
 	"embed"

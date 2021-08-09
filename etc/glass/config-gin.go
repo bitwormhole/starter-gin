@@ -2,7 +2,7 @@ package glassconf
 
 import (
 	"github.com/bitwormhole/starter-gin/glass"
-	srcdebuggolang "github.com/bitwormhole/starter-gin/src/debug/golang"
+
 	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/markup"
 )
@@ -76,14 +76,6 @@ type theStaticWebController struct {
 
 	Root      string           `inject:"${web.static.root}"`
 	Container *glass.Container `inject:"#gin-web-container"`
-}
-
-type theWebDevtoolsController struct {
-	markup.Component
-	instance *srcdebuggolang.DevtoolsController `class:"rest-controller"`
-
-	AppContext application.Context `inject:"context"`
-	Enable     bool                `inject:"${web.devtools.enable}"`
 }
 
 type theWebContentTypes struct {
