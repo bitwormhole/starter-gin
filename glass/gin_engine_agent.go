@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/bitwormhole/starter/util"
+	"github.com/bitwormhole/starter/vlog"
 	"github.com/gin-gonic/gin"
 )
 
@@ -96,7 +97,7 @@ func (inst *ginEngineAgent) applyFilters() error {
 
 	for _, item := range list {
 		name := inst.nameOfFunction(item.fn)
-		log.Println("gin.Engine.Use(f), f =", name)
+		vlog.Info("gin.Engine.Use(f), f =", name)
 		engine.Use(item.fn)
 	}
 
