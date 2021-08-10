@@ -3,6 +3,7 @@ package glass
 import (
 	"strconv"
 
+	"github.com/bitwormhole/starter/vlog"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,5 +35,6 @@ func (inst *HTTPConnector) run(e *gin.Engine) error {
 	host := inst.Host
 	port := inst.Port
 	addr := host + ":" + strconv.Itoa(port)
+	vlog.Info("Run HTTP@", addr)
 	return e.Run(addr)
 }

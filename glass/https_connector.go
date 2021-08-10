@@ -3,6 +3,7 @@ package glass
 import (
 	"strconv"
 
+	"github.com/bitwormhole/starter/vlog"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,5 +40,6 @@ func (inst *HTTPSConnector) run(e *gin.Engine) error {
 	cert := inst.CertificateFile
 	key := inst.PrivateKeyFile
 	addr := host + ":" + strconv.Itoa(port)
+	vlog.Info("Run HTTPS@", addr)
 	return e.RunTLS(addr, cert, key)
 }
