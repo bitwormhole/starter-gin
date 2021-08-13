@@ -4,6 +4,7 @@
       <router-link to="/">首页</router-link> |
       <router-link to="/context"> 环境 </router-link> |
       <router-link to="/requests"> 请求统计 </router-link> |
+      <router-link to="/components"> 组件信息 </router-link> |
       <!-- <router-link to="/modules"> 模块信息 </router-link> | -->
       <router-link to="/about">关于</router-link>
     </div>

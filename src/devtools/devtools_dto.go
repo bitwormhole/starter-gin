@@ -21,3 +21,10 @@ type ModuleInfoDTO struct {
 	Revision string
 	Version  string
 }
+
+type ComponentInfoDTO struct {
+	Type  string
+	ID    string
+	Class []string
+	Scope string
+}

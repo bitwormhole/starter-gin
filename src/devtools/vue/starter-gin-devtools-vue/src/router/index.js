@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import DebugContext from '../views/DebugContext.vue'
 import DebugRequests from '../views/DebugRequests.vue'
 import DebugModules from '../views/DebugModules.vue'
+import DebugComponents from '../views/DebugComponents.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [{
         path: '/modules',
         name: 'debug-modules',
         component: DebugModules
+    },
+    {
+        path: '/components',
+        name: 'debug-components',
+        component: DebugComponents
     },
     {
         path: '/about',

@@ -60,6 +60,7 @@ func (inst *DevtoolsController) initAPI(e glass.EngineConnection) error {
 	e.Handle(http.MethodGet, "context", func(c *gin.Context) { inst.doGetContextInfo(c) })
 	e.Handle(http.MethodGet, "requests", func(c *gin.Context) { inst.doGetRequestSum(c) })
 	e.Handle(http.MethodDelete, "requests", func(c *gin.Context) { inst.doDeleteRequestSum(c) })
+	e.Handle(http.MethodGet, "components", func(c *gin.Context) { inst.doGetComponents(c) })
 	e.Handle(http.MethodGet, "modules", func(c *gin.Context) { inst.doGetModules(c) })
 
 	return nil
@@ -103,6 +104,12 @@ func (inst *DevtoolsController) doGetContextInfo(c *gin.Context) {
 	h["environment"] = env
 	h["properties"] = props
 	c.JSON(200, h)
+}
+
+func (inst *DevtoolsController) doGetComponents(c *gin.Context) {
+	handler := &apiComponentsHandler{}
+	handler.init(inst.AppContext)
+	handler.handle(c)
 }
 
 func (inst *DevtoolsController) doGetModules(c *gin.Context) {
