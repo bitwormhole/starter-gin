@@ -46,6 +46,8 @@ github.com/bitwormhole/starter v0.0.31 h1:Vlhccgi7PJBKm2/u4gbcMRj/Yj0uYXCqUwP25g
 github.com/bitwormhole/starter v0.0.31/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
 github.com/bitwormhole/starter v0.0.32 h1:Def89w3e3kMf4G3xq5F8kpHf2nK1DId4FuU175w7oiw=
 github.com/bitwormhole/starter v0.0.32/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
+github.com/bitwormhole/starter v0.0.33 h1:1YpP/YGFHKl4jAstOxpEdowBg/2fKlzyPIpO/GS8PzQ=
+github.com/bitwormhole/starter v0.0.33/go.mod h1:Mv2MC4cWHU2eUs4793mL7pXL79pmjp1HJyA9bV8ZVMc=
 github.com/bitwormhole/starter-security v0.0.2 h1:Lrx/GsQhT36GYjnfXL9Ima5F2pRdPHDG/pT3C62GHA0=
 github.com/bitwormhole/starter-security v0.0.2/go.mod h1:enEQzrIIL6iGTcL1xBPIqGXlPJR/KtMoyN1CKcm0IGI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
