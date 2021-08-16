@@ -5,6 +5,7 @@ import (
 
 	ginstarter "github.com/bitwormhole/starter-gin"
 	"github.com/bitwormhole/starter-gin/glass"
+	srctest "github.com/bitwormhole/starter-gin/src/test"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,9 +29,10 @@ func services(ec glass.EngineConnection) error {
 
 func main() {
 
-	mob := &ginstarter.GinModuleBuilder{}
+	mob := ginstarter.SimpleModule()
 	mob.Name("github.com/bitwormhole/starter-gin/+src/test/golang").Version("v1").Revision(1)
 	mob.RegisterControllerFunc(services)
+	mob.Resources(srctest.ExportResources())
 
 	mod := mob.Create()
 	ginstarter.InitGin().Use(mod).Use(ginstarter.ModuleWithDevtools()).Run()
