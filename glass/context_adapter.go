@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/lang"
 	"github.com/gin-gonic/gin"
 )
@@ -60,6 +61,7 @@ type ginContextHolder struct {
 
 	lc lang.Context
 	gc *gin.Context
+	ac application.Context
 
 	err error
 }

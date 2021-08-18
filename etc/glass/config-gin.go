@@ -96,3 +96,9 @@ type theWebErrorController struct {
 
 	Container *glass.Container `inject:"#gin-web-container"`
 }
+
+type theContextBindController struct {
+	markup.Component
+	instance   *glass.ContextBindController `class:"rest-controller"`
+	AppContext application.Context          `inject:"context"`
+}

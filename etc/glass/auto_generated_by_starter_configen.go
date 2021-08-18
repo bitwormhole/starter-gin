@@ -45,6 +45,33 @@ func autoGenConfig(configbuilder application.ConfigBuilder) error {
         return err
     }
 
+	// theContextBindController
+	cominfobuilder.Reset()
+	cominfobuilder.ID("theContextBindController").Class("rest-controller").Scope("").Aliases("")
+	cominfobuilder.OnNew(func() lang.Object {
+		return &glass_47343f.ContextBindController{}
+	})
+	cominfobuilder.OnInit(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnDestroy(func(o lang.Object) error {
+		return nil
+	})
+	cominfobuilder.OnInject(func(o lang.Object, context application.Context) error {
+		adapter := &theContextBindController{}
+		adapter.instance = o.(*glass_47343f.ContextBindController)
+		// adapter.context = context
+		err := adapter.__inject__(context)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	err = cominfobuilder.CreateTo(configbuilder)
+    if err !=nil{
+        return err
+    }
+
 	// theHTTPConnector
 	cominfobuilder.Reset()
 	cominfobuilder.ID("theHTTPConnector").Class("web-server-connector").Scope("").Aliases("")
@@ -436,6 +463,40 @@ func (inst * theContainer) __get_Services__(injection application.Injection,sele
 	}
 	return list
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// type theContextBindController struct
+
+func (inst *theContextBindController) __inject__(context application.Context) error {
+
+	// prepare
+	instance := inst.instance
+	injection, err := context.Injector().OpenInjection(context)
+	if err != nil {
+		return err
+	}
+	defer injection.Close()
+	if instance == nil {
+		return nil
+	}
+
+	// from getters
+	inst.AppContext=inst.__get_AppContext__(injection, "context")
+
+
+	// to instance
+	instance.AppContext=inst.AppContext
+
+
+	// invoke custom inject method
+
+
+	return injection.Close()
+}
+
+func (inst * theContextBindController) __get_AppContext__(injection application.Injection,selector string) application.Context {
+	return injection.Context()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
