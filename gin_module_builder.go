@@ -3,9 +3,7 @@ package ginstarter
 import (
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/application"
-	"github.com/bitwormhole/starter/application/config"
 	"github.com/bitwormhole/starter/collection"
-	"github.com/bitwormhole/starter/lang"
 )
 
 // SimpleModuleBuilder 是用于快速创建自定义Gin模块的工具
@@ -93,25 +91,28 @@ func (inst *simpleGinModuleBuilder) fireOnMountHandlers(cb application.ConfigBui
 
 func (inst *simpleGinModuleBuilder) onMount(cb application.ConfigBuilder) error {
 
-	err := inst.fireOnMountHandlers(cb)
-	if err != nil {
-		return err
-	}
+	// err := inst.fireOnMountHandlers(cb)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// 注册组件
+	// // 注册组件
 
-	groupCtr := inst.getGroup()
-	cominfobuilder := &config.ComInfoBuilder{}
+	// groupCtr := inst.getGroup()
+	// cominfobuilder := &config.ComInfoBuilder{}
 
-	cominfobuilder.Reset()
-	cominfobuilder.ID("").Class("rest-controller").Aliases("").Scope("singleton")
-	cominfobuilder.OnNew(func() lang.Object { return groupCtr })
-	return cominfobuilder.CreateTo(cb)
+	// cominfobuilder.Reset()
+	// cominfobuilder.ID("").Class("rest-controller").Aliases("").Scope("singleton")
+	// cominfobuilder.OnNew(func() lang.Object { return groupCtr })
+	// return cominfobuilder.CreateTo(cb)
+
+	return nil
 }
 
 func (inst *simpleGinModuleBuilder) Create() application.Module {
 	inner := inst.Inner()
-	inner.OnMount(func(cb application.ConfigBuilder) error { return inst.onMount(cb) })
+	// inner.OnMount(func(cb application.ConfigBuilder) error { return inst.onMount(cb) })
+	inner.OnMount(func(cb application.ConfigBuilder) error { return nil })
 	return inner.Create()
 }
 

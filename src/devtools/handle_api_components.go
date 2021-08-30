@@ -1,7 +1,10 @@
 package devtools
 
 import (
+	"reflect"
+
 	"github.com/bitwormhole/starter/application"
+	"github.com/bitwormhole/starter/lang"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,8 +36,13 @@ func (inst *apiComponentsHandler) makeDTO(h application.ComponentHolder) *Compon
 	dto.Class = info.GetClasses()
 	dto.ID = info.GetID()
 	dto.Scope = inst.stringifyScope(info.GetScope())
+	dto.Type = inst.stringifyPrototype(info.GetPrototype())
 
 	return dto
+}
+
+func (inst *apiComponentsHandler) stringifyPrototype(o lang.Object) string {
+	return reflect.ValueOf(o).String()
 }
 
 func (inst *apiComponentsHandler) stringifyScope(scope application.ComponentScope) string {

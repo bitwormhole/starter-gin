@@ -1,4 +1,4 @@
-package glassconf
+package glass
 
 import (
 	"strconv"

@@ -3,7 +3,6 @@ package srcmain
 import (
 	"embed"
 
-	"github.com/bitwormhole/starter/application/config"
 	"github.com/bitwormhole/starter/collection"
 )
 
@@ -12,5 +11,5 @@ var resourcesDir embed.FS
 
 // ExportResources 导出资源组
 func ExportResources() collection.Resources {
-	return config.LoadResourcesFromEmbedFS(&resourcesDir, "resources")
+	return collection.LoadEmbedResources(&resourcesDir, "resources")
 }
