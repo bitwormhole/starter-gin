@@ -35,6 +35,7 @@ func EditableContext(c *gin.Context) lang.Context {
 	holder.lc = holder
 	holder.gc = c
 	c.Set(key, holder)
+	holder.bind()
 	return holder.lc
 }
 
@@ -68,6 +69,27 @@ type ginContextHolder struct {
 
 func (inst *ginContextHolder) _Impl() lang.Context {
 	return inst
+}
+
+func (inst *ginContextHolder) bind() {
+	lc := inst.lc
+	if lc != nil {
+		lang.BindContext(lc)
+	}
+}
+
+func (inst *ginContextHolder) unbind() {
+	inst.ac = nil
+	inst.gc = nil
+	inst.lc = nil
+}
+
+func (inst *ginContextHolder) GetValue(key string) interface{} {
+	obj, ok := inst.gc.Get(key)
+	if ok {
+		return obj
+	}
+	return nil
 }
 
 func (inst *ginContextHolder) SetValue(key string, value interface{}) {
