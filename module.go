@@ -1,12 +1,12 @@
 package ginstarter
 
 import (
+	"embed"
+
 	"github.com/bitwormhole/starter"
-	etcdevtools "github.com/bitwormhole/starter-gin/etc/devtools"
-	glassconf "github.com/bitwormhole/starter-gin/etc/glass"
-	"github.com/bitwormhole/starter-gin/src/devtools"
-	srcmain "github.com/bitwormhole/starter-gin/src/main"
+	"github.com/bitwormhole/starter-gin/src/main/etc"
 	"github.com/bitwormhole/starter/application"
+	"github.com/bitwormhole/starter/collection"
 )
 
 const (
@@ -15,34 +15,19 @@ const (
 	myRevision = 21
 )
 
+//go:embed src/main/resources
+var theMainResFS embed.FS
+
 // Module 定义要导出的模块
 func Module() application.Module {
 
-	mod := &application.DefineModule{
-		Name:     myName,
-		Version:  myVersion,
-		Revision: myRevision,
-	}
+	mb := &application.ModuleBuilder{}
+	mb.Name(myName).Version(myVersion).Revision(myRevision)
+	mb.Resources(collection.LoadEmbedResources(&theMainResFS, "src/main/resources"))
+	mb.Dependency(starter.Module())
 
-	mod.OnMount = func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb, mod) }
-	mod.Resources = srcmain.ExportResources()
-	mod.AddDependency(starter.Module())
+	// mb.OnMount = func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb, mod) }
+	mb.OnMount(etc.ExportGinConfig)
 
-	return mod
-}
-
-// ModuleWithDevtools 定义要导出的模块(with devtools)
-func ModuleWithDevtools() application.Module {
-
-	mod := &application.DefineModule{
-		Name:     myName + "/+devtools",
-		Version:  myVersion,
-		Revision: myRevision,
-	}
-
-	mod.OnMount = func(cb application.ConfigBuilder) error { return etcdevtools.ExportConfig(cb) }
-	mod.Resources = devtools.ExportResources()
-	mod.AddDependency(Module())
-
-	return mod
+	return mb.Create()
 }

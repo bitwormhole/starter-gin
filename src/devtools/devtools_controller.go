@@ -7,13 +7,16 @@ import (
 
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/application"
+	"github.com/bitwormhole/starter/markup"
 	"github.com/gin-gonic/gin"
 )
 
 // DevtoolsController 是一个REST控制器，用来显示调试信息
 type DevtoolsController struct {
-	AppContext application.Context
-	Enable     bool
+	markup.Component `class:"rest-controller"`
+
+	AppContext application.Context `inject:"context"`
+	Enable     bool                `inject:"${web.devtools.enable}"`
 
 	// private
 	accumulator RequestAccumulator

@@ -1,8 +1,6 @@
-package glass
+package etc
 
 import (
-	"strconv"
-
 	"github.com/bitwormhole/starter/application"
 )
 
@@ -37,13 +35,13 @@ const (
 	GinMode = "gin.mode"
 )
 
-func MainConfig(cb application.ConfigBuilder, module application.Module) error {
+func configProperties(cb application.ConfigBuilder) error {
 
 	p := cb.DefaultProperties()
 
-	p.SetProperty("module.starter-gin.name", module.GetName())
-	p.SetProperty("module.starter-gin.version", module.GetVersion())
-	p.SetProperty("module.starter-gin.revision", strconv.Itoa(module.GetRevision()))
+	// p.SetProperty("module.starter-gin.name", module.GetName())
+	// p.SetProperty("module.starter-gin.version", module.GetVersion())
+	// p.SetProperty("module.starter-gin.revision", strconv.Itoa(module.GetRevision()))
 
 	p.SetProperty(WebRestContextPath, "/api")
 	p.SetProperty(WebDevToolsEnable, "true")
@@ -71,5 +69,5 @@ func MainConfig(cb application.ConfigBuilder, module application.Module) error {
 
 	p.SetProperty(GinMode, "debug")
 
-	return autoGenConfig(cb)
+	return nil
 }

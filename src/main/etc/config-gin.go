@@ -1,4 +1,4 @@
-package glass
+package etc
 
 import (
 	"github.com/bitwormhole/starter-gin/glass"
