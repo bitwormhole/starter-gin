@@ -74,7 +74,7 @@ func (inst *ginContextHolder) _Impl() lang.Context {
 func (inst *ginContextHolder) bind() {
 	lc := inst.lc
 	if lc != nil {
-		lang.BindContext(lc)
+		lang.SetupContext(lc)
 	}
 }
 
