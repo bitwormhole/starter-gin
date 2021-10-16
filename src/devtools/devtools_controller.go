@@ -5,8 +5,10 @@ import (
 	"sort"
 	"time"
 
+	"github.com/bitwormhole/starter-gin/contexts"
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/application"
+	contexts0 "github.com/bitwormhole/starter/contexts"
 	"github.com/bitwormhole/starter/markup"
 	"github.com/gin-gonic/gin"
 )
@@ -66,6 +68,8 @@ func (inst *DevtoolsController) initAPI(e glass.EngineConnection) error {
 	e.Handle(http.MethodGet, "components", func(c *gin.Context) { inst.doGetComponents(c) })
 	e.Handle(http.MethodGet, "modules", func(c *gin.Context) { inst.doGetModules(c) })
 
+	e.Handle(http.MethodGet, "test/:id", func(c *gin.Context) { inst.doGetTest(c) })
+
 	return nil
 }
 
@@ -119,6 +123,24 @@ func (inst *DevtoolsController) doGetModules(c *gin.Context) {
 	handler := &apiModulesHandler{}
 	handler.init(inst.AppContext)
 	handler.handle(c)
+}
+
+func (inst *DevtoolsController) doGetTest(c *gin.Context) {
+
+	cc, err := contexts.GetContext2(c)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	setter, err := contexts0.GetContextSetter(cc)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	setter.SetValue("foo", "bar")
+	c.JSON(http.StatusOK, "ok")
 }
 
 func (inst *DevtoolsController) doDeleteRequestSum(c *gin.Context) {

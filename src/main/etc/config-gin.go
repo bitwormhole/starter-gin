@@ -1,6 +1,7 @@
 package etc
 
 import (
+	"github.com/bitwormhole/starter-gin/contexts"
 	"github.com/bitwormhole/starter-gin/glass"
 
 	"github.com/bitwormhole/starter/application"
@@ -99,6 +100,6 @@ type theWebErrorController struct {
 
 type theContextBindController struct {
 	markup.Component
-	instance   *glass.ContextBindController `class:"rest-controller"`
-	AppContext application.Context          `inject:"context"`
+	instance   *contexts.ContextBindController `class:"rest-controller"`
+	AppContext application.Context             `inject:"context"`
 }

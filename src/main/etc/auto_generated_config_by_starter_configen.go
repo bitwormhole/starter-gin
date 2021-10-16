@@ -5,6 +5,7 @@
 package etc
 
 import (
+	contexts0x81d750 "github.com/bitwormhole/starter-gin/contexts"
 	glass0x47343f "github.com/bitwormhole/starter-gin/glass"
 	application "github.com/bitwormhole/starter/application"
 	config "github.com/bitwormhole/starter/application/config"
@@ -99,9 +100,9 @@ func autoGenConfig(cb application.ConfigBuilder) error {
 		return err
 	}
 
-	// component: com9-glass.ContextBindController
+	// component: com9-contexts.ContextBindController
 	cominfobuilder.Next()
-	cominfobuilder.ID("com9-glass.ContextBindController").Class("rest-controller").Aliases("").Scope("")
+	cominfobuilder.ID("com9-contexts.ContextBindController").Class("rest-controller").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4theContextBindController{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
@@ -998,10 +999,10 @@ func (inst * comFactory4theWebErrorController) getterForFieldContainerSelector (
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4theContextBindController : the factory of component: com9-glass.ContextBindController
+// comFactory4theContextBindController : the factory of component: com9-contexts.ContextBindController
 type comFactory4theContextBindController struct {
 
-    mPrototype * glass0x47343f.ContextBindController
+    mPrototype * contexts0x81d750.ContextBindController
 
 	
 	mAppContextSelector config.InjectionSelector
@@ -1018,12 +1019,12 @@ func (inst * comFactory4theContextBindController) init() application.ComponentFa
     return inst
 }
 
-func (inst * comFactory4theContextBindController) newObject() * glass0x47343f.ContextBindController {
-	return & glass0x47343f.ContextBindController {}
+func (inst * comFactory4theContextBindController) newObject() * contexts0x81d750.ContextBindController {
+	return & contexts0x81d750.ContextBindController {}
 }
 
-func (inst * comFactory4theContextBindController) castObject(instance application.ComponentInstance) * glass0x47343f.ContextBindController {
-	return instance.Get().(*glass0x47343f.ContextBindController)
+func (inst * comFactory4theContextBindController) castObject(instance application.ComponentInstance) * contexts0x81d750.ContextBindController {
+	return instance.Get().(*contexts0x81d750.ContextBindController)
 }
 
 func (inst * comFactory4theContextBindController) GetPrototype() lang.Object {
