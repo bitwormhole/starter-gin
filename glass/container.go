@@ -1,21 +1,30 @@
 package glass
 
-import "github.com/bitwormhole/starter/application"
-
 // Container 表示一个web容器(gin-glass)
-type Container struct {
+type Container interface {
 
-	// public
+	// GetServer() Server                   //   `inject:"#gin-web-server"`
 
-	Name         string
-	Server       *Server
-	Connectors   []Connector
-	Services     []*WebContext
-	ContentTypes ContentTypeManager
-	IndexPages   string
-	AppContext   application.Context
+	GetName() string                     //  `inject:"${server.name}"`
+	GetConnectors() []Connector          //  `inject:".web-server-connector"`
+	GetContexts() []WebContext           //  `inject:".web-context"`
+	GetContentTypes() ContentTypeManager //  `inject:"#gin-web-content-types"`
+	GetIndexPages() string               //  `inject:"${web.static.index-pages}"`
+	GetIndexPageNames() []string         //  `inject:"${web.static.index-pages}"`
 
-	// private
+	// markup.Component `id:"gin-web-container"`
 
-	runtime *serverRuntime
+	// // public
+
+	// AppContext   application.Context `inject:"context"`
+	// Name         string              `inject:"${server.name}"`
+	// Server       *Server             `inject:"#gin-web-server"`
+	// Connectors   []Connector         `inject:".web-server-connector"`
+	// Services     []*WebContext       `inject:".web-context"`
+	// ContentTypes ContentTypeManager  `inject:"#gin-web-content-types"`
+	// IndexPages   string              `inject:"${web.static.index-pages}"`
+
+	// // private
+
+	// runtime *serverRuntime
 }

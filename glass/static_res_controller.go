@@ -3,24 +3,31 @@ package glass
 import (
 	"strings"
 
+	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/collection"
+	"github.com/bitwormhole/starter/markup"
 	"github.com/gin-gonic/gin"
 )
 
+// StaticWebResourcesController ...
 type StaticWebResourcesController struct {
-	Root      string     // 这是一个资源路径，指向 static-www 文件夹       `inject:"${web.static.root}"`
-	Container *Container `inject:"#gin-web-container"`
+	markup.Component `class:"static-web-controller"`
+
+	// 这 Root 是一个资源路径，指向 static-www 文件夹       `inject:"${web.static.root}"`
+	Root      string              `inject:"${web.static.root}"`
+	Container Container           `inject:"#gin-web-container"`
+	Context   application.Context `inject:"context"`
 }
 
 func (inst *StaticWebResourcesController) _Impl() Controller {
 	return inst
 }
 
+// Init ...
 func (inst *StaticWebResourcesController) Init(ec EngineConnection) error {
 
 	root := inst.Root
-	container := inst.Container
-	app := container.AppContext
+	app := inst.Context
 	res := app.GetResources()
 	list := res.List(root, true)
 
@@ -50,7 +57,7 @@ func (inst *StaticWebResourcesController) Init(ec EngineConnection) error {
 }
 
 func (inst *StaticWebResourcesController) isIndex(path string) bool {
-	list := inst.Container.runtime.indexPageNames
+	list := inst.Container.GetIndexPageNames()
 	for _, name := range list {
 		if strings.HasSuffix(path, "/"+name) {
 			return true
@@ -68,7 +75,7 @@ func (inst *StaticWebResourcesController) toIndexParentPath(path string) string 
 }
 
 func (inst *StaticWebResourcesController) findContentType(path string) string {
-	types := inst.Container.ContentTypes
+	types := inst.Container.GetContentTypes()
 	return types.Find(path)
 }
 

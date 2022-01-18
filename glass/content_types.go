@@ -6,17 +6,24 @@ import (
 
 	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/collection"
+	"github.com/bitwormhole/starter/markup"
 )
 
+// ContentTypeManager ...
 type ContentTypeManager interface {
 	Find(pathname string) string
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// DefaultContentTypeManager ...
 type DefaultContentTypeManager struct {
-	AppContext      application.Context
-	TypesProperties string
+	markup.Component `id:"gin-web-content-types"`
+
+	// public
+
+	AppContext      application.Context `inject:"context"`
+	TypesProperties string              `inject:"${web.static.content-types-properties}"`
 
 	// private
 	table collection.Properties

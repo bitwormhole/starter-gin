@@ -3,12 +3,15 @@ package contexts
 import (
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/application"
+	"github.com/bitwormhole/starter/markup"
 	"github.com/gin-gonic/gin"
 )
 
 // ContextBindController 控制器把 context.Context 绑定到 gin.Context
 type ContextBindController struct {
-	AppContext application.Context
+	markup.Component `class:"rest-controller"`
+
+	AppContext application.Context `inject:"context"`
 }
 
 func (inst *ContextBindController) _Impl() glass.Controller {

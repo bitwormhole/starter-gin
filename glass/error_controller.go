@@ -1,15 +1,22 @@
 package glass
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/bitwormhole/starter/application"
+	"github.com/bitwormhole/starter/markup"
+	"github.com/gin-gonic/gin"
+)
 
+// ErrorController ...
 type ErrorController struct {
+	markup.Component `class:"static-web-controller"`
 
 	// public
-	ResourcePath string
-	ContentType  string
-	Status       int
 
-	Container *Container
+	ResourcePath string              `inject:"${web.error-page.resource}"`
+	ContentType  string              `inject:"${web.error-page.content-type}"`
+	Status       int                 `inject:"${web.error-page.status}"`
+	Container    *Container          `inject:"#gin-web-container"`
+	Context      application.Context `inject:"context"`
 
 	// private
 	data []byte
@@ -19,6 +26,7 @@ func (inst *ErrorController) _Impl() Controller {
 	return inst
 }
 
+// Init ...
 func (inst *ErrorController) Init(ec EngineConnection) error {
 
 	err := inst.load()
@@ -33,7 +41,7 @@ func (inst *ErrorController) Init(ec EngineConnection) error {
 
 func (inst *ErrorController) load() error {
 	path := inst.ResourcePath
-	res := inst.Container.AppContext.GetResources()
+	res := inst.Context.GetResources()
 	data, err := res.GetBinary(path)
 	if err != nil {
 		return err
