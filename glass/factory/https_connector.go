@@ -1,10 +1,13 @@
 package factory
 
 import (
+	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/markup"
+	"github.com/bitwormhole/starter/vlog"
 )
 
 // HTTPSConnector 是实现 HTTPS 连接器的组件
@@ -31,5 +34,43 @@ func (inst *HTTPSConnector) Enabled() bool {
 
 // Connect 打开连接
 func (inst *HTTPSConnector) Connect(h http.Handler) (glass.NetworkConnection, error) {
-	return nil, nil
+
+	if h == nil {
+		return nil, errors.New("http.Handler==nil")
+	}
+	host := inst.Host
+	port := inst.Port
+	if port < 1 {
+		port = 8443
+	}
+	addr := host + ":" + strconv.Itoa(port)
+	nc := &HTTPSConn{
+		h:    h,
+		addr: addr,
+	}
+	return nc, nil
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+type HTTPSConn struct {
+	h    http.Handler
+	addr string
+}
+
+func (inst *HTTPSConn) _Impl() glass.NetworkConnection {
+	return inst
+}
+
+func (inst *HTTPSConn) Shutdown() error {
+	return nil
+}
+
+func (inst *HTTPSConn) Run() error {
+
+	vlog.Info("serve HTTPS at [", inst.addr, "]")
+
+	return http.ListenAndServe(inst.addr, inst.h)
+}
+
+////////////////////////////////////////////////////////////////////////////////

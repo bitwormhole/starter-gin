@@ -25,9 +25,9 @@ func (inst *ginEngineBuilder) scanContext(ctx glass.WebContext, ec glass.EngineC
 
 func (inst *ginEngineBuilder) makeMainHandler(c glass.Container) (http.Handler, error) {
 	ecHolder := &ginEngineConnectionHolder{}
-	ec := ecHolder.getEngineConnection()
 	ctxList := c.GetContexts()
 	for _, ctx := range ctxList {
+		ec := ecHolder.getEngineConnection(ctx)
 		err := inst.scanContext(ctx, ec)
 		if err != nil {
 			return nil, err
@@ -49,6 +49,9 @@ func (inst *ginEngineBuilder) makeNetworkConnList(c glass.Container) ([]glass.Ne
 	src := c.GetConnectors()
 	dst := make([]glass.NetworkConnection, 0)
 	for _, connector := range src {
+		if !connector.Enabled() {
+			continue
+		}
 		conn, err := connector.Connect(h)
 		if err != nil {
 			return nil, err

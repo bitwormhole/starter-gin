@@ -3,7 +3,7 @@ package ginstarter
 import (
 	"embed"
 
-	"github.com/bitwormhole/starter-gin/src/devtools/etc"
+	"github.com/bitwormhole/starter-gin/gen/config_devtools"
 	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/collection"
 )
@@ -20,7 +20,7 @@ func ModuleWithDevtools() application.Module {
 	mb.Resources(collection.LoadEmbedResources(&theDevtoolsResFS, "src/devtools/resources"))
 
 	// mod.OnMount = func(cb application.ConfigBuilder) error { return etcdevtools.ExportConfig(cb) }
-	mb.OnMount(etc.ExportDevtoolsConfig)
+	mb.OnMount(config_devtools.ExportConfigForGinStarterDevtools)
 
 	return mb.Create()
 }

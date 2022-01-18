@@ -13,7 +13,7 @@ import (
 
 // WebContainer glass 的核心容器
 type WebContainer struct {
-	markup.Component `id:"gin-web-container"`
+	markup.Component `id:"gin-web-container" class:"life"`
 
 	// Server       glass.Server             `inject:"#gin-web-server"`
 

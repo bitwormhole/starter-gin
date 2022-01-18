@@ -15,7 +15,7 @@ type ErrorController struct {
 	ResourcePath string              `inject:"${web.error-page.resource}"`
 	ContentType  string              `inject:"${web.error-page.content-type}"`
 	Status       int                 `inject:"${web.error-page.status}"`
-	Container    *Container          `inject:"#gin-web-container"`
+	Container    Container           `inject:"#gin-web-container"`
 	Context      application.Context `inject:"context"`
 
 	// private

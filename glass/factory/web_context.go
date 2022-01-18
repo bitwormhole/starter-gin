@@ -13,7 +13,7 @@ type RestContext struct {
 
 	Container      glass.Container    `inject:"#gin-web-container"`
 	ControllerList []glass.Controller `inject:".rest-controller"`
-	ContextPath    string             `inject:"${a.b.c}"`
+	ContextPath    string             `inject:"${web.rest.context-path}"`
 }
 
 func (inst *RestContext) _Impl() glass.WebContext {
@@ -43,7 +43,7 @@ type StaticContext struct {
 
 	Container      glass.Container    `inject:"#gin-web-container"`
 	ControllerList []glass.Controller `inject:".static-web-controller"`
-	ContextPath    string             `inject:"${a.b.c}"`
+	ContextPath    string             `inject:"${web.static.context-path}"`
 }
 
 func (inst *StaticContext) _Impl() glass.WebContext {

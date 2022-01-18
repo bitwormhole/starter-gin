@@ -4,7 +4,7 @@ import (
 	"embed"
 
 	"github.com/bitwormhole/starter"
-	"github.com/bitwormhole/starter-gin/src/main/etc"
+	"github.com/bitwormhole/starter-gin/gen/config_lib"
 	"github.com/bitwormhole/starter/application"
 	"github.com/bitwormhole/starter/collection"
 )
@@ -27,7 +27,7 @@ func Module() application.Module {
 	mb.Dependency(starter.Module())
 
 	// mb.OnMount = func(cb application.ConfigBuilder) error { return glassconf.MainConfig(cb, mod) }
-	mb.OnMount(etc.ExportGinConfig)
+	mb.OnMount(config_lib.ExportConfigForGinStarterLib)
 
 	return mb.Create()
 }
