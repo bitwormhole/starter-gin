@@ -2,9 +2,12 @@ package factory
 
 import (
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/bitwormhole/starter-gin/glass"
+	"github.com/bitwormhole/starter/lang"
+	"github.com/bitwormhole/starter/vlog"
 	"github.com/gin-gonic/gin"
 )
 
@@ -63,6 +66,8 @@ func (inst *ginEngineConnectionHolder) configureFilters(e *gin.Engine) error {
 			continue
 		}
 		dst = append(dst, h)
+		hstr := lang.StringifyObject(h)
+		vlog.Info("gin.Engine.Use(middleware:", hstr, ")")
 	}
 	e.Use(dst...)
 	return nil
@@ -87,6 +92,7 @@ func (inst *ginEngineConnectionHolder) configureHandlers(e *gin.Engine) error {
 func (inst *ginEngineConnectionHolder) configureNoMethod(e *gin.Engine) error {
 	dst := make([]gin.HandlerFunc, 0)
 	all := inst.hNoMethod
+	(&handlerRegistrationSort{list: all}).sort()
 	for _, item := range all {
 		if item == nil {
 			continue
@@ -106,6 +112,7 @@ func (inst *ginEngineConnectionHolder) configureNoMethod(e *gin.Engine) error {
 func (inst *ginEngineConnectionHolder) configureNoRes(e *gin.Engine) error {
 	dst := make([]gin.HandlerFunc, 0)
 	all := inst.hNoResource
+	(&handlerRegistrationSort{list: all}).sort()
 	for _, item := range all {
 		if item == nil {
 			continue
@@ -136,6 +143,7 @@ func (inst *ginEngineConnectionFacade) _Impl() glass.EngineConnection {
 
 func (inst *ginEngineConnectionFacade) normalizePath(path string) string {
 	const slash = "/"
+	endsWithSlash := strings.HasSuffix(path, slash)
 	builder := strings.Builder{}
 	items := strings.Split(path, slash)
 	for _, it := range items {
@@ -145,6 +153,9 @@ func (inst *ginEngineConnectionFacade) normalizePath(path string) string {
 		}
 		builder.WriteString(slash)
 		builder.WriteString(it)
+	}
+	if endsWithSlash {
+		builder.WriteString(slash)
 	}
 	return builder.String()
 }
@@ -192,19 +203,19 @@ func (inst *ginEngineConnectionFacade) Handle(method string, path string, handle
 }
 
 // HandleNoMethod 注册 error 处理器
-func (inst *ginEngineConnectionFacade) HandleNoMethod(handler gin.HandlerFunc) {
+func (inst *ginEngineConnectionFacade) HandleNoMethod(order int, handler gin.HandlerFunc) {
 	r := &HandlerRegistration{}
 	r.Method = "error"
-	r.Path = "/no/method"
+	r.Path = "/no/method/" + strconv.Itoa(order+10000000)
 	r.Handler = handler
 	inst.core.hNoMethod = append(inst.core.hNoMethod, r)
 }
 
 // HandleNoResource 注册 error 处理器
-func (inst *ginEngineConnectionFacade) HandleNoResource(handler gin.HandlerFunc) {
+func (inst *ginEngineConnectionFacade) HandleNoResource(order int, handler gin.HandlerFunc) {
 	r := &HandlerRegistration{}
 	r.Method = "error"
-	r.Path = "/no/resource"
+	r.Path = "/no/resource/" + strconv.Itoa(order+10000000)
 	r.Handler = handler
 	inst.core.hNoResource = append(inst.core.hNoResource, r)
 }

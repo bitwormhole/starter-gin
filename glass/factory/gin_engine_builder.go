@@ -33,7 +33,10 @@ func (inst *ginEngineBuilder) makeMainHandler(c glass.Container) (http.Handler, 
 			return nil, err
 		}
 	}
-	engine := gin.New()
+
+	// engine := gin.New()
+	engine := gin.Default()
+
 	err := ecHolder.applyToEngine(engine)
 	if err != nil {
 		return nil, err

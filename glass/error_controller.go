@@ -34,8 +34,8 @@ func (inst *ErrorController) Init(ec EngineConnection) error {
 		return err
 	}
 
-	ec.HandleNoMethod(func(c *gin.Context) { inst.handle(c) })
-	ec.HandleNoResource(func(c *gin.Context) { inst.handle(c) })
+	ec.HandleNoMethod(0, inst.handle)
+	ec.HandleNoResource(0, inst.handle)
 	return nil
 }
 

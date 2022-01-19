@@ -7,7 +7,6 @@ import (
 
 	"github.com/bitwormhole/starter-gin/glass"
 	"github.com/bitwormhole/starter/markup"
-	"github.com/bitwormhole/starter/vlog"
 )
 
 // HTTPSConnector 是实现 HTTPS 连接器的组件
@@ -68,9 +67,10 @@ func (inst *HTTPSConn) Shutdown() error {
 
 func (inst *HTTPSConn) Run() error {
 
-	vlog.Info("serve HTTPS at [", inst.addr, "]")
+	// vlog.Info("serve HTTPS at [", inst.addr, "]")
+	// return http.ListenAndServe(inst.addr, inst.h)
 
-	return http.ListenAndServe(inst.addr, inst.h)
+	return errors.New("HTTPSConnector: no impl")
 }
 
 ////////////////////////////////////////////////////////////////////////////////

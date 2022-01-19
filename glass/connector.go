@@ -41,8 +41,8 @@ type EngineConnection interface {
 	Handle(method string, path string, handler gin.HandlerFunc)
 
 	// 注册 error 处理器
-	HandleNoMethod(handler gin.HandlerFunc)
+	HandleNoMethod(order int, handler gin.HandlerFunc)
 
 	// 注册 error 处理器
-	HandleNoResource(handler gin.HandlerFunc)
+	HandleNoResource(order int, handler gin.HandlerFunc)
 }
