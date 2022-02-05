@@ -12,13 +12,7 @@ const keyGinContextBinding = "glass.ginContextAdapter.1d18341c61c0ef62f7ac7bd.v1
 
 // GetContext2 函数把【*gin.Context】转换成【context.Context】
 func GetContext2(c *gin.Context) (context.Context, error) {
-	const key = keyGinContextBinding
-	o1 := c.Value(key)
-	o2, ok := o1.(*ginContextAdapter)
-	if ok {
-		return o2, nil
-	}
-	return nil, errors.New("The context.Context is not a binding to gin.Context")
+	return c, nil
 }
 
 // GetGinContext 函数把【context.Context】转换成【*gin.Context】
@@ -44,11 +38,8 @@ func SetupGinContext(c *gin.Context) error {
 		if o2.isReady() {
 			return nil
 		}
-	} else {
-		o2 = &ginContextAdapter{}
 	}
-	o2.err = nil
-	o2.gc = c
+	o2 = &ginContextAdapter{gc: c}
 	o2.bind()
 	return nil
 }

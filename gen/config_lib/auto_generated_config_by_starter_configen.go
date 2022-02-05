@@ -45,18 +45,27 @@ func autoGenConfig(cb application.ConfigBuilder) error {
 		return err
 	}
 
-	// component: com2-factory0x58e669.HTTPSConnector
+	// component: com2-factory0x58e669.ContextBindController
 	cominfobuilder.Next()
-	cominfobuilder.ID("com2-factory0x58e669.HTTPSConnector").Class("web-server-connector").Aliases("").Scope("")
+	cominfobuilder.ID("com2-factory0x58e669.ContextBindController").Class("rest-controller").Aliases("").Scope("")
+	cominfobuilder.Factory((&comFactory4pComContextBindController{}).init())
+	err = cominfobuilder.CreateTo(cb)
+	if err != nil {
+		return err
+	}
+
+	// component: com3-factory0x58e669.HTTPSConnector
+	cominfobuilder.Next()
+	cominfobuilder.ID("com3-factory0x58e669.HTTPSConnector").Class("web-server-connector").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComHTTPSConnector{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
 		return err
 	}
 
-	// component: com3-factory0x58e669.HTTPConnector
+	// component: com4-factory0x58e669.HTTPConnector
 	cominfobuilder.Next()
-	cominfobuilder.ID("com3-factory0x58e669.HTTPConnector").Class("web-server-connector").Aliases("").Scope("")
+	cominfobuilder.ID("com4-factory0x58e669.HTTPConnector").Class("web-server-connector").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComHTTPConnector{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
@@ -90,9 +99,9 @@ func autoGenConfig(cb application.ConfigBuilder) error {
 		return err
 	}
 
-	// component: com7-glass0x47343f.StaticWebResourcesController
+	// component: com8-glass0x47343f.StaticWebResourcesController
 	cominfobuilder.Next()
-	cominfobuilder.ID("com7-glass0x47343f.StaticWebResourcesController").Class("static-web-controller").Aliases("").Scope("")
+	cominfobuilder.ID("com8-glass0x47343f.StaticWebResourcesController").Class("static-web-controller").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComStaticWebResourcesController{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
@@ -287,7 +296,71 @@ func (inst * comFactory4pComErrorController) getterForFieldContextSelector (cont
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComHTTPSConnector : the factory of component: com2-factory0x58e669.HTTPSConnector
+// comFactory4pComContextBindController : the factory of component: com2-factory0x58e669.ContextBindController
+type comFactory4pComContextBindController struct {
+
+    mPrototype * factory0x58e669.ContextBindController
+
+	
+	mOrderSelector config.InjectionSelector
+
+}
+
+func (inst * comFactory4pComContextBindController) init() application.ComponentFactory {
+
+	
+	inst.mOrderSelector = config.NewInjectionSelector("${webfilter.context.order}",nil)
+
+
+	inst.mPrototype = inst.newObject()
+    return inst
+}
+
+func (inst * comFactory4pComContextBindController) newObject() * factory0x58e669.ContextBindController {
+	return & factory0x58e669.ContextBindController {}
+}
+
+func (inst * comFactory4pComContextBindController) castObject(instance application.ComponentInstance) * factory0x58e669.ContextBindController {
+	return instance.Get().(*factory0x58e669.ContextBindController)
+}
+
+func (inst * comFactory4pComContextBindController) GetPrototype() lang.Object {
+	return inst.mPrototype
+}
+
+func (inst * comFactory4pComContextBindController) NewInstance() application.ComponentInstance {
+	return config.SimpleInstance(inst, inst.newObject())
+}
+
+func (inst * comFactory4pComContextBindController) AfterService() application.ComponentAfterService {
+	return inst
+}
+
+func (inst * comFactory4pComContextBindController) Init(instance application.ComponentInstance) error {
+	return nil
+}
+
+func (inst * comFactory4pComContextBindController) Destroy(instance application.ComponentInstance) error {
+	return nil
+}
+
+func (inst * comFactory4pComContextBindController) Inject(instance application.ComponentInstance, context application.InstanceContext) error {
+	
+	obj := inst.castObject(instance)
+	obj.Order = inst.getterForFieldOrderSelector(context)
+	return context.LastError()
+}
+
+//getterForFieldOrderSelector
+func (inst * comFactory4pComContextBindController) getterForFieldOrderSelector (context application.InstanceContext) int {
+    return inst.mOrderSelector.GetInt(context)
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+// comFactory4pComHTTPSConnector : the factory of component: com3-factory0x58e669.HTTPSConnector
 type comFactory4pComHTTPSConnector struct {
 
     mPrototype * factory0x58e669.HTTPSConnector
@@ -391,7 +464,7 @@ func (inst * comFactory4pComHTTPSConnector) getterForFieldPrivateKeyFileSelector
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComHTTPConnector : the factory of component: com3-factory0x58e669.HTTPConnector
+// comFactory4pComHTTPConnector : the factory of component: com4-factory0x58e669.HTTPConnector
 type comFactory4pComHTTPConnector struct {
 
     mPrototype * factory0x58e669.HTTPConnector
@@ -806,7 +879,7 @@ func (inst * comFactory4pComStaticContext) getterForFieldContextPathSelector (co
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComStaticWebResourcesController : the factory of component: com7-glass0x47343f.StaticWebResourcesController
+// comFactory4pComStaticWebResourcesController : the factory of component: com8-glass0x47343f.StaticWebResourcesController
 type comFactory4pComStaticWebResourcesController struct {
 
     mPrototype * glass0x47343f.StaticWebResourcesController
@@ -880,7 +953,7 @@ func (inst * comFactory4pComStaticWebResourcesController) getterForFieldContaine
 	if !ok {
 		eb := &util.ErrorBuilder{}
 		eb.Message("bad cast")
-		eb.Set("com", "com7-glass0x47343f.StaticWebResourcesController")
+		eb.Set("com", "com8-glass0x47343f.StaticWebResourcesController")
 		eb.Set("field", "Container")
 		eb.Set("type1", "?")
 		eb.Set("type2", "glass0x47343f.Container")

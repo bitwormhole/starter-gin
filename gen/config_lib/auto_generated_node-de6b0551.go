@@ -29,6 +29,13 @@ type pComErrorController struct {
 }
 
 
+type pComContextBindController struct {
+	instance *factory0x58e669.ContextBindController
+	 markup0x23084a.Component `class:"rest-controller"`
+	Order int `inject:"${webfilter.context.order}"`
+}
+
+
 type pComHTTPSConnector struct {
 	instance *factory0x58e669.HTTPSConnector
 	 markup0x23084a.Component `class:"web-server-connector"`
