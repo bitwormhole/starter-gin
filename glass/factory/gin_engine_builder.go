@@ -10,6 +10,38 @@ import (
 type ginEngineBuilder struct {
 }
 
+func (inst *ginEngineBuilder) makeMainHandler(c glass.Container) (http.Handler, error) {
+	ecHolder := &ginEngineConnectionHolder{}
+	ctxList := c.GetContexts()
+	icbTable := make(map[string]*interceptorChainBuilder)
+
+	for _, ctx := range ctxList {
+		ec := ecHolder.getEngineConnection(ctx)
+		err := inst.scanContext(ctx, ec)
+		if err != nil {
+			return nil, err
+		}
+		icbTable[ctx.GetContextID()] = inst.makeInterceptorChainBuilder(ctx)
+	}
+
+	ecHolder.prepareInterceptorForHandlers(icbTable)
+
+	// engine := gin.New()
+	engine := gin.Default()
+
+	err := ecHolder.applyToEngine(engine)
+	if err != nil {
+		return nil, err
+	}
+	return engine, nil
+}
+
+func (inst *ginEngineBuilder) makeInterceptorChainBuilder(ctx glass.WebContext) *interceptorChainBuilder {
+	icb := &interceptorChainBuilder{}
+	icb.initWithRegistryList(ctx.GetInterceptors())
+	return icb
+}
+
 func (inst *ginEngineBuilder) scanContext(ctx glass.WebContext, ec glass.EngineConnection) error {
 	ctrList := ctx.GetControllers()
 	for _, controller := range ctrList {
@@ -20,28 +52,13 @@ func (inst *ginEngineBuilder) scanContext(ctx glass.WebContext, ec glass.EngineC
 			return err
 		}
 	}
+
+	icb := interceptorChainBuilder{}
+	icb.initWithRegistryList(ctx.GetInterceptors())
+
+	icb.makeChainFor(nil)
+
 	return nil
-}
-
-func (inst *ginEngineBuilder) makeMainHandler(c glass.Container) (http.Handler, error) {
-	ecHolder := &ginEngineConnectionHolder{}
-	ctxList := c.GetContexts()
-	for _, ctx := range ctxList {
-		ec := ecHolder.getEngineConnection(ctx)
-		err := inst.scanContext(ctx, ec)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	// engine := gin.New()
-	engine := gin.Default()
-
-	err := ecHolder.applyToEngine(engine)
-	if err != nil {
-		return nil, err
-	}
-	return engine, nil
 }
 
 func (inst *ginEngineBuilder) makeNetworkConnList(c glass.Container) ([]glass.NetworkConnection, error) {

@@ -72,9 +72,10 @@ type pComWebContainer struct {
 type pComRestContext struct {
 	instance *factory0x58e669.RestContext
 	 markup0x23084a.Component `id:"rest-web-context" class:"web-context"`
+	ContextPath string `inject:"${web.rest.context-path}"`
 	Container glass0x47343f.Container `inject:"#gin-web-container"`
 	ControllerList []glass0x47343f.Controller `inject:".rest-controller"`
-	ContextPath string `inject:"${web.rest.context-path}"`
+	Interceptors []glass0x47343f.InterceptorRegistry `inject:".rest-interceptor-registry"`
 }
 
 
@@ -83,6 +84,7 @@ type pComStaticContext struct {
 	 markup0x23084a.Component `id:"static-web-context" class:"web-context"`
 	Container glass0x47343f.Container `inject:"#gin-web-container"`
 	ControllerList []glass0x47343f.Controller `inject:".static-web-controller"`
+	Interceptors []glass0x47343f.InterceptorRegistry `inject:".static-web-interceptor-registry"`
 	ContextPath string `inject:"${web.static.context-path}"`
 }
 

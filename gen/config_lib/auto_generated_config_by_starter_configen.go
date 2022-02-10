@@ -683,18 +683,20 @@ type comFactory4pComRestContext struct {
     mPrototype * factory0x58e669.RestContext
 
 	
+	mContextPathSelector config.InjectionSelector
 	mContainerSelector config.InjectionSelector
 	mControllerListSelector config.InjectionSelector
-	mContextPathSelector config.InjectionSelector
+	mInterceptorsSelector config.InjectionSelector
 
 }
 
 func (inst * comFactory4pComRestContext) init() application.ComponentFactory {
 
 	
+	inst.mContextPathSelector = config.NewInjectionSelector("${web.rest.context-path}",nil)
 	inst.mContainerSelector = config.NewInjectionSelector("#gin-web-container",nil)
 	inst.mControllerListSelector = config.NewInjectionSelector(".rest-controller",nil)
-	inst.mContextPathSelector = config.NewInjectionSelector("${web.rest.context-path}",nil)
+	inst.mInterceptorsSelector = config.NewInjectionSelector(".rest-interceptor-registry",nil)
 
 
 	inst.mPrototype = inst.newObject()
@@ -732,10 +734,16 @@ func (inst * comFactory4pComRestContext) Destroy(instance application.ComponentI
 func (inst * comFactory4pComRestContext) Inject(instance application.ComponentInstance, context application.InstanceContext) error {
 	
 	obj := inst.castObject(instance)
+	obj.ContextPath = inst.getterForFieldContextPathSelector(context)
 	obj.Container = inst.getterForFieldContainerSelector(context)
 	obj.ControllerList = inst.getterForFieldControllerListSelector(context)
-	obj.ContextPath = inst.getterForFieldContextPathSelector(context)
+	obj.Interceptors = inst.getterForFieldInterceptorsSelector(context)
 	return context.LastError()
+}
+
+//getterForFieldContextPathSelector
+func (inst * comFactory4pComRestContext) getterForFieldContextPathSelector (context application.InstanceContext) string {
+    return inst.mContextPathSelector.GetString(context)
 }
 
 //getterForFieldContainerSelector
@@ -769,9 +777,17 @@ func (inst * comFactory4pComRestContext) getterForFieldControllerListSelector (c
 	return list2
 }
 
-//getterForFieldContextPathSelector
-func (inst * comFactory4pComRestContext) getterForFieldContextPathSelector (context application.InstanceContext) string {
-    return inst.mContextPathSelector.GetString(context)
+//getterForFieldInterceptorsSelector
+func (inst * comFactory4pComRestContext) getterForFieldInterceptorsSelector (context application.InstanceContext) []glass0x47343f.InterceptorRegistry {
+	list1 := inst.mInterceptorsSelector.GetList(context)
+	list2 := make([]glass0x47343f.InterceptorRegistry, 0, len(list1))
+	for _, item1 := range list1 {
+		item2, ok := item1.(glass0x47343f.InterceptorRegistry)
+		if ok {
+			list2 = append(list2, item2)
+		}
+	}
+	return list2
 }
 
 
@@ -786,6 +802,7 @@ type comFactory4pComStaticContext struct {
 	
 	mContainerSelector config.InjectionSelector
 	mControllerListSelector config.InjectionSelector
+	mInterceptorsSelector config.InjectionSelector
 	mContextPathSelector config.InjectionSelector
 
 }
@@ -795,6 +812,7 @@ func (inst * comFactory4pComStaticContext) init() application.ComponentFactory {
 	
 	inst.mContainerSelector = config.NewInjectionSelector("#gin-web-container",nil)
 	inst.mControllerListSelector = config.NewInjectionSelector(".static-web-controller",nil)
+	inst.mInterceptorsSelector = config.NewInjectionSelector(".static-web-interceptor-registry",nil)
 	inst.mContextPathSelector = config.NewInjectionSelector("${web.static.context-path}",nil)
 
 
@@ -835,6 +853,7 @@ func (inst * comFactory4pComStaticContext) Inject(instance application.Component
 	obj := inst.castObject(instance)
 	obj.Container = inst.getterForFieldContainerSelector(context)
 	obj.ControllerList = inst.getterForFieldControllerListSelector(context)
+	obj.Interceptors = inst.getterForFieldInterceptorsSelector(context)
 	obj.ContextPath = inst.getterForFieldContextPathSelector(context)
 	return context.LastError()
 }
@@ -863,6 +882,19 @@ func (inst * comFactory4pComStaticContext) getterForFieldControllerListSelector 
 	list2 := make([]glass0x47343f.Controller, 0, len(list1))
 	for _, item1 := range list1 {
 		item2, ok := item1.(glass0x47343f.Controller)
+		if ok {
+			list2 = append(list2, item2)
+		}
+	}
+	return list2
+}
+
+//getterForFieldInterceptorsSelector
+func (inst * comFactory4pComStaticContext) getterForFieldInterceptorsSelector (context application.InstanceContext) []glass0x47343f.InterceptorRegistry {
+	list1 := inst.mInterceptorsSelector.GetList(context)
+	list2 := make([]glass0x47343f.InterceptorRegistry, 0, len(list1))
+	for _, item1 := range list1 {
+		item2, ok := item1.(glass0x47343f.InterceptorRegistry)
 		if ok {
 			list2 = append(list2, item2)
 		}

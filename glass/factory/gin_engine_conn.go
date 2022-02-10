@@ -14,18 +14,46 @@ import (
 ////////////////////////////////////////////////////////////////////////////////
 
 type ginEngineConnectionHolder struct {
-	handlers    []*HandlerRegistration
-	filters     []*FilterRegistration
+	handlers []*HandlerRegistration
+	filters  []*FilterRegistration
+	// interceptors []*glass.InterceptorRegistration
 	hNoMethod   []*HandlerRegistration
 	hNoResource []*HandlerRegistration
 }
 
 func (inst *ginEngineConnectionHolder) getEngineConnection(ctx glass.WebContext) glass.EngineConnection {
+
+	// inst.interceptors = inst.getInterceptorRegistrations(ctx.GetInterceptors())
+
 	ec := &ginEngineConnectionFacade{}
 	ec.context = ctx
 	ec.core = inst
 	ec.path = "/"
 	return ec
+}
+
+func (inst *ginEngineConnectionHolder) getInterceptorRegistrations(src []glass.InterceptorRegistry) []*glass.InterceptorRegistration {
+	dst := make([]*glass.InterceptorRegistration, 0)
+	for _, item1 := range src {
+		list := item1.GetRegistrationList()
+		for _, item2 := range list {
+			dst = append(dst, item2)
+		}
+	}
+	return dst
+}
+
+// （如果需要） 为所有的 handler 逐个创建拦截器
+func (inst *ginEngineConnectionHolder) prepareInterceptorForHandlers(icbTable map[string]*interceptorChainBuilder) {
+	handlers := inst.handlers
+	for _, item := range handlers {
+		icb := icbTable[item.ContextID]
+		if icb == nil {
+			continue
+		}
+		h := item.Handler
+		item.Handler = icb.makeChainFor(h)
+	}
 }
 
 func (inst *ginEngineConnectionHolder) applyToEngine(e *gin.Engine) error {
@@ -199,6 +227,7 @@ func (inst *ginEngineConnectionFacade) Handle(method string, path string, handle
 	r.Method = method
 	r.Path = inst.href(path)
 	r.Handler = handler
+	r.ContextID = inst.context.GetContextID()
 	inst.core.handlers = append(inst.core.handlers, r)
 }
 
@@ -260,9 +289,10 @@ func (inst *filterRegistrationSort) Swap(a, b int) {
 
 // HandlerRegistration ...
 type HandlerRegistration struct {
-	Method  string
-	Path    string
-	Handler gin.HandlerFunc
+	Method    string
+	Path      string
+	ContextID string
+	Handler   gin.HandlerFunc
 }
 
 type handlerRegistrationSort struct {
