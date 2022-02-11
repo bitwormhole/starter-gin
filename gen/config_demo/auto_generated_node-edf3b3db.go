@@ -4,6 +4,7 @@
 package config_demo
 
 import (
+	glass0x47343f "github.com/bitwormhole/starter-gin/glass"
 	demo0xa69cb5 "github.com/bitwormhole/starter-gin/src/demo/golang/demo"
 	markup0x23084a "github.com/bitwormhole/starter/markup"
 )
@@ -11,6 +12,7 @@ import (
 type pComDemo1ctrl struct {
 	instance *demo0xa69cb5.Demo1ctrl
 	 markup0x23084a.Component `class:"rest-controller"`
+	Resp glass0x47343f.MainResponder `inject:"#glass-main-responder"`
 }
 
 

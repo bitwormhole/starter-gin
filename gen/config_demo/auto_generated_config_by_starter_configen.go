@@ -5,6 +5,7 @@
 package config_demo
 
 import (
+	glass0x47343f "github.com/bitwormhole/starter-gin/glass"
 	demo0xa69cb5 "github.com/bitwormhole/starter-gin/src/demo/golang/demo"
 	application "github.com/bitwormhole/starter/application"
 	config "github.com/bitwormhole/starter/application/config"
@@ -57,12 +58,14 @@ type comFactory4pComDemo1ctrl struct {
     mPrototype * demo0xa69cb5.Demo1ctrl
 
 	
+	mRespSelector config.InjectionSelector
 
 }
 
 func (inst * comFactory4pComDemo1ctrl) init() application.ComponentFactory {
 
 	
+	inst.mRespSelector = config.NewInjectionSelector("#glass-main-responder",nil)
 
 
 	inst.mPrototype = inst.newObject()
@@ -98,7 +101,28 @@ func (inst * comFactory4pComDemo1ctrl) Destroy(instance application.ComponentIns
 }
 
 func (inst * comFactory4pComDemo1ctrl) Inject(instance application.ComponentInstance, context application.InstanceContext) error {
-	return nil
+	
+	obj := inst.castObject(instance)
+	obj.Resp = inst.getterForFieldRespSelector(context)
+	return context.LastError()
+}
+
+//getterForFieldRespSelector
+func (inst * comFactory4pComDemo1ctrl) getterForFieldRespSelector (context application.InstanceContext) glass0x47343f.MainResponder {
+
+	o1 := inst.mRespSelector.GetOne(context)
+	o2, ok := o1.(glass0x47343f.MainResponder)
+	if !ok {
+		eb := &util.ErrorBuilder{}
+		eb.Message("bad cast")
+		eb.Set("com", "com0-demo0xa69cb5.Demo1ctrl")
+		eb.Set("field", "Resp")
+		eb.Set("type1", "?")
+		eb.Set("type2", "glass0x47343f.MainResponder")
+		context.HandleError(eb.Create())
+		return nil
+	}
+	return o2
 }
 
 

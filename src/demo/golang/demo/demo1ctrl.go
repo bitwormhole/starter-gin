@@ -4,12 +4,15 @@ import (
 	"net/http"
 
 	"github.com/bitwormhole/starter-gin/glass"
+	"github.com/bitwormhole/starter-restful/api/vo"
 	"github.com/bitwormhole/starter/markup"
 	"github.com/gin-gonic/gin"
 )
 
 type Demo1ctrl struct {
 	markup.Component `class:"rest-controller"`
+
+	Resp glass.MainResponder `inject:"#glass-main-responder"`
 }
 
 func (inst *Demo1ctrl) _Impl() glass.Controller {
@@ -23,5 +26,13 @@ func (inst *Demo1ctrl) Init(ec glass.EngineConnection) error {
 
 func (inst *Demo1ctrl) handle(c *gin.Context) {
 
-	c.JSON(http.StatusOK, "demo1: OK")
+	session := &vo.Session{}
+
+	resp := glass.Response{}
+	resp.Context = c
+	resp.Data = session
+	resp.Error = nil
+	resp.Status = http.StatusOK
+
+	inst.Resp.Send(&resp)
 }

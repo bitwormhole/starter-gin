@@ -54,19 +54,37 @@ func autoGenConfig(cb application.ConfigBuilder) error {
 		return err
 	}
 
-	// component: com3-factory0x58e669.HTTPSConnector
+	// component: com3-factory0x58e669.DefaultRestResponder
 	cominfobuilder.Next()
-	cominfobuilder.ID("com3-factory0x58e669.HTTPSConnector").Class("web-server-connector").Aliases("").Scope("")
+	cominfobuilder.ID("com3-factory0x58e669.DefaultRestResponder").Class("glass-responder-registry").Aliases("").Scope("")
+	cominfobuilder.Factory((&comFactory4pComDefaultRestResponder{}).init())
+	err = cominfobuilder.CreateTo(cb)
+	if err != nil {
+		return err
+	}
+
+	// component: com4-factory0x58e669.HTTPSConnector
+	cominfobuilder.Next()
+	cominfobuilder.ID("com4-factory0x58e669.HTTPSConnector").Class("web-server-connector").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComHTTPSConnector{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
 		return err
 	}
 
-	// component: com4-factory0x58e669.HTTPConnector
+	// component: com5-factory0x58e669.HTTPConnector
 	cominfobuilder.Next()
-	cominfobuilder.ID("com4-factory0x58e669.HTTPConnector").Class("web-server-connector").Aliases("").Scope("")
+	cominfobuilder.ID("com5-factory0x58e669.HTTPConnector").Class("web-server-connector").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComHTTPConnector{}).init())
+	err = cominfobuilder.CreateTo(cb)
+	if err != nil {
+		return err
+	}
+
+	// component: glass-main-responder
+	cominfobuilder.Next()
+	cominfobuilder.ID("glass-main-responder").Class("").Aliases("").Scope("")
+	cominfobuilder.Factory((&comFactory4pComTheMainResponder{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
 		return err
@@ -99,9 +117,9 @@ func autoGenConfig(cb application.ConfigBuilder) error {
 		return err
 	}
 
-	// component: com8-glass0x47343f.StaticWebResourcesController
+	// component: com10-glass0x47343f.StaticWebResourcesController
 	cominfobuilder.Next()
-	cominfobuilder.ID("com8-glass0x47343f.StaticWebResourcesController").Class("static-web-controller").Aliases("").Scope("")
+	cominfobuilder.ID("com10-glass0x47343f.StaticWebResourcesController").Class("static-web-controller").Aliases("").Scope("")
 	cominfobuilder.Factory((&comFactory4pComStaticWebResourcesController{}).init())
 	err = cominfobuilder.CreateTo(cb)
 	if err != nil {
@@ -360,7 +378,61 @@ func (inst * comFactory4pComContextBindController) getterForFieldOrderSelector (
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComHTTPSConnector : the factory of component: com3-factory0x58e669.HTTPSConnector
+// comFactory4pComDefaultRestResponder : the factory of component: com3-factory0x58e669.DefaultRestResponder
+type comFactory4pComDefaultRestResponder struct {
+
+    mPrototype * factory0x58e669.DefaultRestResponder
+
+	
+
+}
+
+func (inst * comFactory4pComDefaultRestResponder) init() application.ComponentFactory {
+
+	
+
+
+	inst.mPrototype = inst.newObject()
+    return inst
+}
+
+func (inst * comFactory4pComDefaultRestResponder) newObject() * factory0x58e669.DefaultRestResponder {
+	return & factory0x58e669.DefaultRestResponder {}
+}
+
+func (inst * comFactory4pComDefaultRestResponder) castObject(instance application.ComponentInstance) * factory0x58e669.DefaultRestResponder {
+	return instance.Get().(*factory0x58e669.DefaultRestResponder)
+}
+
+func (inst * comFactory4pComDefaultRestResponder) GetPrototype() lang.Object {
+	return inst.mPrototype
+}
+
+func (inst * comFactory4pComDefaultRestResponder) NewInstance() application.ComponentInstance {
+	return config.SimpleInstance(inst, inst.newObject())
+}
+
+func (inst * comFactory4pComDefaultRestResponder) AfterService() application.ComponentAfterService {
+	return inst
+}
+
+func (inst * comFactory4pComDefaultRestResponder) Init(instance application.ComponentInstance) error {
+	return nil
+}
+
+func (inst * comFactory4pComDefaultRestResponder) Destroy(instance application.ComponentInstance) error {
+	return nil
+}
+
+func (inst * comFactory4pComDefaultRestResponder) Inject(instance application.ComponentInstance, context application.InstanceContext) error {
+	return nil
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+// comFactory4pComHTTPSConnector : the factory of component: com4-factory0x58e669.HTTPSConnector
 type comFactory4pComHTTPSConnector struct {
 
     mPrototype * factory0x58e669.HTTPSConnector
@@ -464,7 +536,7 @@ func (inst * comFactory4pComHTTPSConnector) getterForFieldPrivateKeyFileSelector
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComHTTPConnector : the factory of component: com4-factory0x58e669.HTTPConnector
+// comFactory4pComHTTPConnector : the factory of component: com5-factory0x58e669.HTTPConnector
 type comFactory4pComHTTPConnector struct {
 
     mPrototype * factory0x58e669.HTTPConnector
@@ -546,6 +618,86 @@ func (inst * comFactory4pComHTTPConnector) getterForFieldPortSelector (context a
 //getterForFieldMyEnableSelector
 func (inst * comFactory4pComHTTPConnector) getterForFieldMyEnableSelector (context application.InstanceContext) bool {
     return inst.mMyEnableSelector.GetBool(context)
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+// comFactory4pComTheMainResponder : the factory of component: glass-main-responder
+type comFactory4pComTheMainResponder struct {
+
+    mPrototype * factory0x58e669.TheMainResponder
+
+	
+	mTargetNameSelector config.InjectionSelector
+	mRespondersSelector config.InjectionSelector
+
+}
+
+func (inst * comFactory4pComTheMainResponder) init() application.ComponentFactory {
+
+	
+	inst.mTargetNameSelector = config.NewInjectionSelector("${glass.target.responder.name}",nil)
+	inst.mRespondersSelector = config.NewInjectionSelector(".glass-responder-registry",nil)
+
+
+	inst.mPrototype = inst.newObject()
+    return inst
+}
+
+func (inst * comFactory4pComTheMainResponder) newObject() * factory0x58e669.TheMainResponder {
+	return & factory0x58e669.TheMainResponder {}
+}
+
+func (inst * comFactory4pComTheMainResponder) castObject(instance application.ComponentInstance) * factory0x58e669.TheMainResponder {
+	return instance.Get().(*factory0x58e669.TheMainResponder)
+}
+
+func (inst * comFactory4pComTheMainResponder) GetPrototype() lang.Object {
+	return inst.mPrototype
+}
+
+func (inst * comFactory4pComTheMainResponder) NewInstance() application.ComponentInstance {
+	return config.SimpleInstance(inst, inst.newObject())
+}
+
+func (inst * comFactory4pComTheMainResponder) AfterService() application.ComponentAfterService {
+	return inst
+}
+
+func (inst * comFactory4pComTheMainResponder) Init(instance application.ComponentInstance) error {
+	return inst.castObject(instance).Init()
+}
+
+func (inst * comFactory4pComTheMainResponder) Destroy(instance application.ComponentInstance) error {
+	return nil
+}
+
+func (inst * comFactory4pComTheMainResponder) Inject(instance application.ComponentInstance, context application.InstanceContext) error {
+	
+	obj := inst.castObject(instance)
+	obj.TargetName = inst.getterForFieldTargetNameSelector(context)
+	obj.Responders = inst.getterForFieldRespondersSelector(context)
+	return context.LastError()
+}
+
+//getterForFieldTargetNameSelector
+func (inst * comFactory4pComTheMainResponder) getterForFieldTargetNameSelector (context application.InstanceContext) string {
+    return inst.mTargetNameSelector.GetString(context)
+}
+
+//getterForFieldRespondersSelector
+func (inst * comFactory4pComTheMainResponder) getterForFieldRespondersSelector (context application.InstanceContext) []glass0x47343f.ResponderRegistry {
+	list1 := inst.mRespondersSelector.GetList(context)
+	list2 := make([]glass0x47343f.ResponderRegistry, 0, len(list1))
+	for _, item1 := range list1 {
+		item2, ok := item1.(glass0x47343f.ResponderRegistry)
+		if ok {
+			list2 = append(list2, item2)
+		}
+	}
+	return list2
 }
 
 
@@ -911,7 +1063,7 @@ func (inst * comFactory4pComStaticContext) getterForFieldContextPathSelector (co
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// comFactory4pComStaticWebResourcesController : the factory of component: com8-glass0x47343f.StaticWebResourcesController
+// comFactory4pComStaticWebResourcesController : the factory of component: com10-glass0x47343f.StaticWebResourcesController
 type comFactory4pComStaticWebResourcesController struct {
 
     mPrototype * glass0x47343f.StaticWebResourcesController
@@ -985,7 +1137,7 @@ func (inst * comFactory4pComStaticWebResourcesController) getterForFieldContaine
 	if !ok {
 		eb := &util.ErrorBuilder{}
 		eb.Message("bad cast")
-		eb.Set("com", "com8-glass0x47343f.StaticWebResourcesController")
+		eb.Set("com", "com10-glass0x47343f.StaticWebResourcesController")
 		eb.Set("field", "Container")
 		eb.Set("type1", "?")
 		eb.Set("type2", "glass0x47343f.Container")

@@ -36,6 +36,12 @@ type pComContextBindController struct {
 }
 
 
+type pComDefaultRestResponder struct {
+	instance *factory0x58e669.DefaultRestResponder
+	 markup0x23084a.Component `class:"glass-responder-registry"`
+}
+
+
 type pComHTTPSConnector struct {
 	instance *factory0x58e669.HTTPSConnector
 	 markup0x23084a.Component `class:"web-server-connector"`
@@ -55,6 +61,14 @@ type pComHTTPConnector struct {
 	Host string `inject:"${server.host}"`
 	Port int `inject:"${server.port}"`
 	MyEnable bool `inject:"${server.enable}"`
+}
+
+
+type pComTheMainResponder struct {
+	instance *factory0x58e669.TheMainResponder
+	 markup0x23084a.Component `id:"glass-main-responder" initMethod:"Init"`
+	TargetName string `inject:"${glass.target.responder.name}"`
+	Responders []glass0x47343f.ResponderRegistry `inject:".glass-responder-registry"`
 }
 
 
