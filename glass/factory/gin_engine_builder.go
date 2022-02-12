@@ -53,10 +53,9 @@ func (inst *ginEngineBuilder) scanContext(ctx glass.WebContext, ec glass.EngineC
 		}
 	}
 
-	icb := interceptorChainBuilder{}
-	icb.initWithRegistryList(ctx.GetInterceptors())
-
-	icb.makeChainFor(nil)
+	// icb := interceptorChainBuilder{}
+	// icb.initWithRegistryList(ctx.GetInterceptors())
+	// icb.makeChainFor(nil)
 
 	return nil
 }
