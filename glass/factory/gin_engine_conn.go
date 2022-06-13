@@ -112,7 +112,8 @@ func (inst *ginEngineConnectionHolder) configureHandlers(e *gin.Engine) error {
 		if h == nil {
 			continue
 		}
-		e.Handle(item.Method, item.Path, h)
+		path := item.getNormalPath()
+		e.Handle(item.Method, path, h)
 	}
 	return nil
 }
@@ -294,6 +295,26 @@ type HandlerRegistration struct {
 	ContextID string
 	Handler   gin.HandlerFunc
 }
+
+func (inst *HandlerRegistration) getNormalPath() string {
+	const sep = "/"
+	list := strings.Split(inst.Path, sep)
+	builder := strings.Builder{}
+	for _, el := range list {
+		el = strings.TrimSpace(el)
+		if el == "" {
+			continue
+		}
+		builder.WriteString(sep)
+		builder.WriteString(el)
+	}
+	if builder.Len() == 0 {
+		return sep
+	}
+	return builder.String()
+}
+
+//////////////////////////////////////////////////////
 
 type handlerRegistrationSort struct {
 	list []*HandlerRegistration
