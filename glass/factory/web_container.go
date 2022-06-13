@@ -77,6 +77,18 @@ func (inst *WebContainer) GetIndexPages() string {
 	return inst.IndexPages
 }
 
+// Shutdown ...
+func (inst *WebContainer) Shutdown() error {
+	list := inst.networks
+	for _, conn := range list {
+		err := conn.Shutdown()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (inst *WebContainer) onInit() error {
 	builder := ginEngineBuilder{}
 	nets, err := builder.makeNetworkConnList(inst)

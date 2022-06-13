@@ -52,6 +52,7 @@ func (inst *HTTPSConnector) Connect(h http.Handler) (glass.NetworkConnection, er
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// HTTPSConn ...
 type HTTPSConn struct {
 	h    http.Handler
 	addr string

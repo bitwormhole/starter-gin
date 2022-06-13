@@ -27,4 +27,6 @@ type Container interface {
 	// // private
 
 	// runtime *serverRuntime
+
+	Shutdown() error
 }
