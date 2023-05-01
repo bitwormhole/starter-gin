@@ -1,5 +1,7 @@
 package devtools
 
+import "sync"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // RequestEndpoint
@@ -48,21 +50,13 @@ func (inst *RequestEndpoint) getTime(rec *RequestRecordDTO, useEnding bool) int6
 // RequestAccumulator 请求累加器
 type RequestAccumulator struct {
 	endpoints map[string]*RequestEndpoint
+	mutex     sync.Mutex
 }
 
 func (inst *RequestAccumulator) keyFor(rec *RequestRecordDTO) string {
 	method := rec.Method
 	path := rec.Path
 	return path + "#" + method
-}
-
-func (inst *RequestAccumulator) reset() {
-	all := inst.getEndpoints()
-	for _, item := range all {
-		item.Count = 0
-		item.FirstRequest = nil
-		item.LastRequest = nil
-	}
 }
 
 func (inst *RequestAccumulator) getEndpoints() map[string]*RequestEndpoint {
@@ -74,7 +68,24 @@ func (inst *RequestAccumulator) getEndpoints() map[string]*RequestEndpoint {
 	return table
 }
 
+func (inst *RequestAccumulator) reset() {
+
+	inst.mutex.Lock()
+	defer inst.mutex.Unlock()
+
+	all := inst.getEndpoints()
+	for _, item := range all {
+		item.Count = 0
+		item.FirstRequest = nil
+		item.LastRequest = nil
+	}
+}
+
 func (inst *RequestAccumulator) getEndpoint(rec *RequestRecordDTO, create bool) *RequestEndpoint {
+
+	inst.mutex.Lock()
+	defer inst.mutex.Unlock()
+
 	key := inst.keyFor(rec)
 	table := inst.getEndpoints()
 	ep := table[key]
